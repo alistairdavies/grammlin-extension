@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+
+#app {
+  @apply w-full h-full;
+}
+
+main {
+  @apply w-full text-center;
+}
+
+.container {
+  @apply w-full max-w-5xl mx-auto px-4;
+}
