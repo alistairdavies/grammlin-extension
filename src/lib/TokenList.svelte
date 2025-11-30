@@ -1,14 +1,16 @@
 <script lang="ts">
   import { fly } from "svelte/transition";
   import TokenCard from "./TokenCard.svelte";
+  import {type Token } from "./api/service"
 
-  let { tokens } = $props();
+  let { tokens } = $props<{ tokens: Token[] }>();
 </script>
 
-<ul class="w-full list-none p-0 m-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="flex flex-col gap-2 m-2">
   {#each tokens as token}
-    <li transition:fly={{ y: 200, duration: 500 }} class="flex">
+    <div  transition:fly={{ x: -200, duration: 500 }}>
       <TokenCard {token} />
-    </li>
+    </div>
   {/each}
-</ul>
+</div>
+

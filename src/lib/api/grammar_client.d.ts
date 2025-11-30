@@ -4,182 +4,185 @@
  */
 
 export interface paths {
-  "/parse": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/parse": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Parse Sentence */
+        post: operations["parse_sentence_parse_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** Parse Sentence */
-    post: operations["parse_sentence_parse_post"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    /** BaseToken */
-    BaseToken: {
-      /**
-       * Text
-       * @description The original word in the given text.
-       */
-      text: string;
-      /** @description The details for the base form of the word. */
-      lemma: components["schemas"]["Lemma"];
-      /** @description The category of the word derived from the universal part of speech tag. */
-      part_of_speech: components["schemas"]["PartOfSpeech"] | null;
+    schemas: {
+        /** BaseToken */
+        BaseToken: {
+            /**
+             * Text
+             * @description The original word in the given text.
+             */
+            text: string;
+            /** @description The category of the word derived from the universal part of speech tag. */
+            part_of_speech: components["schemas"]["PartOfSpeech"] | null;
+            /** @description The dictionary definition of the word from folkets lexikon */
+            definition: components["schemas"]["DictionaryEntry"] | null;
+        };
+        /**
+         * DictionaryEntry
+         * @description Represents a dictionary entry.
+         */
+        DictionaryEntry: {
+            /** Headword */
+            headword: string;
+            /** Part Of Speech */
+            part_of_speech: string | null;
+            /** Definition */
+            definition: string | null;
+        };
+        /** HTTPValidationError */
+        HTTPValidationError: {
+            /** Detail */
+            detail?: components["schemas"]["ValidationError"][];
+        };
+        /** NounMorphology */
+        NounMorphology: {
+            /** Gender */
+            gender?: ("common" | "neuter") | null;
+            /** Definiteness */
+            definiteness?: ("definite" | "indefinite") | null;
+            /** Plurality */
+            plurality?: ("singular" | "plural") | null;
+        };
+        /** NounToken */
+        NounToken: {
+            /**
+             * Text
+             * @description The original word in the given text.
+             */
+            text: string;
+            /** @description The category of the word derived from the universal part of speech tag. */
+            part_of_speech: components["schemas"]["PartOfSpeech"] | null;
+            /** @description The dictionary definition of the word from folkets lexikon */
+            definition: components["schemas"]["DictionaryEntry"] | null;
+            morphology: components["schemas"]["NounMorphology"];
+        };
+        /** ParseRequest */
+        ParseRequest: {
+            /** Sentence */
+            sentence: string;
+        };
+        /** ParseResponse */
+        ParseResponse: {
+            /** Tokens */
+            tokens: (components["schemas"]["NounToken"] | components["schemas"]["VerbToken"] | components["schemas"]["PronounToken"] | components["schemas"]["BaseToken"])[];
+        };
+        /** PartOfSpeech */
+        PartOfSpeech: {
+            /** Title */
+            title: string;
+            /** Id */
+            id: string;
+        };
+        /** PronounMorphology */
+        PronounMorphology: {
+            /**
+             * Form
+             * @enum {string}
+             */
+            form: "object" | "possessive" | "subject";
+        };
+        /** PronounToken */
+        PronounToken: {
+            /**
+             * Text
+             * @description The original word in the given text.
+             */
+            text: string;
+            /** @description The category of the word derived from the universal part of speech tag. */
+            part_of_speech: components["schemas"]["PartOfSpeech"] | null;
+            /** @description The dictionary definition of the word from folkets lexikon */
+            definition: components["schemas"]["DictionaryEntry"] | null;
+            morphology: components["schemas"]["PronounMorphology"];
+        };
+        /** ValidationError */
+        ValidationError: {
+            /** Location */
+            loc: (string | number)[];
+            /** Message */
+            msg: string;
+            /** Error Type */
+            type: string;
+        };
+        /** VerbMorphology */
+        VerbMorphology: {
+            /** Tense */
+            tense?: ("past tense" | "present tense") | null;
+            /** Form */
+            form?: ("infinitive" | "supine" | "imperative") | null;
+        };
+        /** VerbToken */
+        VerbToken: {
+            /**
+             * Text
+             * @description The original word in the given text.
+             */
+            text: string;
+            /** @description The category of the word derived from the universal part of speech tag. */
+            part_of_speech: components["schemas"]["PartOfSpeech"] | null;
+            /** @description The dictionary definition of the word from folkets lexikon */
+            definition: components["schemas"]["DictionaryEntry"] | null;
+            morphology: components["schemas"]["VerbMorphology"];
+        };
     };
-    /** HTTPValidationError */
-    HTTPValidationError: {
-      /** Detail */
-      detail?: components["schemas"]["ValidationError"][];
-    };
-    /** Lemma */
-    Lemma: {
-      /** Text */
-      text: string;
-      /** Url */
-      readonly url: string | null;
-    };
-    /** NounMorphology */
-    NounMorphology: {
-      /** Gender */
-      gender: "common" | "neuter" | null;
-      /** Definiteness */
-      definiteness: "definite" | "indefinite" | null;
-      /** Plurality */
-      plurality: "singular" | "plural" | null;
-    };
-    /** NounToken */
-    NounToken: {
-      /**
-       * Text
-       * @description The original word in the given text.
-       */
-      text: string;
-      /** @description The details for the base form of the word. */
-      lemma: components["schemas"]["Lemma"];
-      /** @description The category of the word derived from the universal part of speech tag. */
-      part_of_speech: components["schemas"]["PartOfSpeech"] | null;
-      morphology: components["schemas"]["NounMorphology"];
-    };
-    /** ParseRequest */
-    ParseRequest: {
-      /** Sentence */
-      sentence: string;
-    };
-    /** ParseResponse */
-    ParseResponse: {
-      /** Tokens */
-      tokens: (
-        | components["schemas"]["NounToken"]
-        | components["schemas"]["VerbToken"]
-        | components["schemas"]["PronounToken"]
-        | components["schemas"]["BaseToken"]
-      )[];
-    };
-    /** PartOfSpeech */
-    PartOfSpeech: {
-      /** Title */
-      title: string;
-      /** Id */
-      id: string;
-    };
-    /** PronounMorphology */
-    PronounMorphology: {
-      /** Form */
-      form: "object" | "possessive" | "subject" | null;
-    };
-    /** PronounToken */
-    PronounToken: {
-      /**
-       * Text
-       * @description The original word in the given text.
-       */
-      text: string;
-      /** @description The details for the base form of the word. */
-      lemma: components["schemas"]["Lemma"];
-      /** @description The category of the word derived from the universal part of speech tag. */
-      part_of_speech: components["schemas"]["PartOfSpeech"] | null;
-      morphology: components["schemas"]["PronounMorphology"];
-    };
-    /** ValidationError */
-    ValidationError: {
-      /** Location */
-      loc: (string | number)[];
-      /** Message */
-      msg: string;
-      /** Error Type */
-      type: string;
-    };
-    /** VerbMorphology */
-    VerbMorphology: {
-      /** Tense */
-      tense: "past tense" | "present tense" | null;
-      /** Form */
-      form: "infinitive" | "supine" | "imperative" | null;
-    };
-    /** VerbToken */
-    VerbToken: {
-      /**
-       * Text
-       * @description The original word in the given text.
-       */
-      text: string;
-      /** @description The details for the base form of the word. */
-      lemma: components["schemas"]["Lemma"];
-      /** @description The category of the word derived from the universal part of speech tag. */
-      part_of_speech: components["schemas"]["PartOfSpeech"] | null;
-      morphology: components["schemas"]["VerbMorphology"];
-    };
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  parse_sentence_parse_post: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    parse_sentence_parse_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ParseRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ParseResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["ParseRequest"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ParseResponse"];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
 }

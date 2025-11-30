@@ -10,7 +10,6 @@ type VerbToken = components["schemas"]["VerbToken"];
 type PronounToken = components["schemas"]["PronounToken"];
 type BaseToken = components["schemas"]["BaseToken"];
 
-export type Lemma = components["schemas"]["Lemma"];
 export type Token = NounToken | VerbToken | PronounToken | BaseToken;
 
 export async function parseSentence(sentence: string): Promise<Token[]> {
@@ -37,5 +36,3 @@ export function isVerb(token: Token): token is VerbToken {
 export function isPronoun(token: Token): token is PronounToken {
   return token.part_of_speech?.id == "pronoun";
 }
-
-

@@ -1,101 +1,177 @@
 <script lang="ts">
   import { isNoun, isPronoun, isVerb, type Token } from "./api/service";
-  import Badge from "./components/Badge.svelte";
-  import Card from "./components/Card.svelte";
-  import { BookA } from "@lucide/svelte";
 
   let { token } = $props<{ token: Token }>();
 
-type BadgeVariant = "blue" | "green" | "amber" | "purple" | "yellow" | "red" | "gray";
+  type POSColor = {
+    bg: string;
+    text: string;
+  };
 
-function getPOSBadgeVariant(pos: Token["part_of_speech"]): BadgeVariant {
-  switch (pos?.id) {
-    case "verb":
-      return "blue";
-    case "noun":
-      return "green";
-    case "adjective":
-      return "amber";
-    case "pronoun":
-      return "purple";
-    case "determiner":
-      return "yellow";
-    case "auxiliary_verb":
-      return "red";
-    default:
-      return "gray";
+  function getPOSColor(pos: Token["part_of_speech"]): POSColor {
+    switch (pos?.id) {
+      case "verb":
+        return { bg: "#dbeafe", text: "#2563eb" };
+      case "noun":
+        return { bg: "#d1fae5", text: "#059669" };
+      case "adjective":
+        return { bg: "#fef3c7", text: "#d97706" };
+      case "pronoun":
+        return { bg: "#ede9fe", text: "#7c3aed" };
+      case "adverb":
+        return { bg: "#fce7f3", text: "#db2777" };
+      case "conjunction":
+        return { bg: "#e5e7eb", text: "#4b5563" };
+      default:
+        return { bg: "#e5e7eb", text: "#4b5563" };
+    }
   }
-}
+
+  function getMorphologyAttributes(token: Token): string[] {
+    const attrs: string[] = [];
+
+    if (isVerb(token)) {
+      if (token.morphology.tense) attrs.push(token.morphology.tense);
+      if (token.morphology.form) attrs.push(token.morphology.form);
+    } else if (isNoun(token)) {
+      if (token.morphology.plurality) attrs.push(token.morphology.plurality);
+      if (token.morphology.definiteness) attrs.push(token.morphology.definiteness);
+      if (token.morphology.gender) {
+        attrs.push(token.morphology.gender === "common" ? "en word" : "ett word");
+      }
+    } else if (isPronoun(token)) {
+      if (token.morphology.form) attrs.push(token.morphology.form);
+    }
+
+    return attrs;
+  }
+
+  const posColor = $derived(token.part_of_speech ? getPOSColor(token.part_of_speech) : null);
+  const morphAttrs = $derived(getMorphologyAttributes(token));
 </script>
 
-
-<Card>
-  <div class="space-y-3">
-    <!-- Word and Part of Speech -->
-    <div class="flex items-start justify-between gap-4">
-      {#if token.lemma.url}
-        <div class="tooltip tooltip-right tooltip-primary">
-          <div class="tooltip-content">
-            <div class="flex items-center gap-1.5">
-              <BookA size={14} strokeWidth={2.5} />
-              <span>Sök ord i ordböcker</span>
-            </div>
-          </div>
-          <a
-            href={token.lemma.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-xl font-bold m-0 no-underline hover:underline decoration-2 underline-offset-4"
-          >
-            {token.text}
-          </a>
-        </div>
-      {:else}
-        <h3 class="text-xl font-bold m-0">{token.text}</h3>
-      {/if}
-      {#if token.part_of_speech}
-        <Badge
-          text={token.part_of_speech.title}
-          variant={getPOSBadgeVariant(token.part_of_speech)}
-        />
-      {/if}
+<div class="word-item">
+  <div class="word-header">
+    <div class="word-left">
+      <div class="word-name">{token.text}</div>
     </div>
-
-    <!-- Base Form -->
-    <div class="text-sm min-h-[1.25rem]">
-      {#if token.lemma.text.toLowerCase() !== token.text.toLowerCase() }
-        <span class="font-semibold text-base-content/40">Grundform:</span>
-        <span class="ml-1">{token.lemma.text}</span>
-      {/if}
-    </div>
-
-    <!-- Morphology -->
-    {#if isVerb(token) || isNoun(token) || isPronoun(token)}
-      <div class="divider my-1"></div>
-      <div class="flex flex-wrap gap-2">
-        {#if isVerb(token)}
-          {#if token.morphology.tense}
-            <span class="badge badge-outline">{token.morphology.tense}</span>
-          {/if}
-          {#if token.morphology.form}
-            <span class="badge badge-outline">{token.morphology.form}</span>
-          {/if}
-        {:else if isNoun(token)}
-          {#if token.morphology.plurality}
-            <span class="badge badge-outline">{token.morphology.plurality}</span>
-          {/if}
-          {#if token.morphology.definiteness}
-            <span class="badge badge-outline">{token.morphology.definiteness}</span>
-          {/if}
-          {#if token.morphology.gender}
-            <span class="badge badge-outline">{token.morphology.gender === "common" ? "en word" : "ett word"}</span>
-          {/if}
-        {:else if isPronoun(token)}
-          {#if token.morphology.form}
-            <span class="badge badge-outline">{token.morphology.form}</span>
-          {/if}
-        {/if}
-      </div>
-    {/if}
   </div>
-</Card>
+  {#if token.definition?.definition}
+    <p class="definition">{token.definition.definition}</p>
+  {/if}
+  <div class="word-meta">
+    {#if token.part_of_speech && posColor}
+      <span
+        class="type-badge"
+        style:background-color={posColor.bg}
+        style:color={posColor.text}
+      >
+        {token.part_of_speech.title}
+      </span>
+    {/if}
+    {#each morphAttrs as attr}
+      <span class="attr-tag">{attr}</span>
+    {/each}
+  </div>
+</div>
+
+<style>
+  .word-item {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0.875rem;
+    transition: all 0.2s;
+    text-align: left;
+  }
+
+  .word-item:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-color: #d1d5db;
+  }
+
+  .word-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+  }
+
+  .word-left {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+  }
+
+  .word-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.5rem;
+    text-align: left;
+  }
+
+  .definition {
+    font-size: 0.875rem;
+    color: #4b5563;
+    line-height: 1.5;
+    margin: 0 0 0.75rem 0;
+    padding: 0.5rem;
+    background: #f9fafb;
+    border-left: 3px solid #3b82f6;
+    border-radius: 4px;
+    font-style: italic;
+  }
+
+  .word-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    text-align: left;
+  }
+
+  .type-badge {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.25rem 0.625rem;
+    border-radius: 12px;
+    text-transform: capitalize;
+  }
+
+  .attr-tag {
+    font-size: 0.75rem;
+    color: #6b7280;
+    background: #f9fafb;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.375rem;
+    flex-shrink: 0;
+  }
+
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.375rem 0.5rem;
+    background: white;
+    color: #3b82f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .action-btn:hover {
+    background: #eff6ff;
+    border-color: #3b82f6;
+  }
+</style>

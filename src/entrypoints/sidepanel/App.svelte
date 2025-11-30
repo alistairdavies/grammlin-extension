@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Token } from '@/lib/api/service';
-  import Nav from '@/lib/components/Nav.svelte';
+    import Nav from '@/lib/components/Nav.svelte';
     import TokenList from '@/lib/TokenList.svelte';
 
 
