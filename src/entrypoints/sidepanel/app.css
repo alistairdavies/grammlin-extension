@@ -12,7 +12,7 @@ html, body {
 }
 
 main {
-  @apply w-full text-center;
+  @apply w-full;
 }
 
 .container {
