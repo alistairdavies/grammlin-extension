@@ -1,5 +1,5 @@
 <script lang="ts">
-  type BadgeVariant = "blue" | "green" | "amber" | "purple" | "yellow" | "red" | "gray";
+  export type BadgeVariant = "blue" | "green" | "amber" | "purple" | "yellow" | "red" | "gray";
 
   let { text, variant = "gray" } = $props<{
     text: string;
@@ -26,6 +26,6 @@
   }
 </script>
 
-<div class="badge {getVariantClasses(variant)}">
+<div class="badge badge-sm {getVariantClasses(variant)}">
   {text}
 </div>
