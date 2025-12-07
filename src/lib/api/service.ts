@@ -12,10 +12,20 @@ type BaseToken = components["schemas"]["BaseToken"];
 
 export type Token = NounToken | VerbToken | PronounToken | BaseToken;
 
+export class LanguageNotSwedishError extends Error {
+  constructor() {
+    super("The text does not appear to be in Swedish");
+    this.name = "LanguageNotSwedishError";
+  }
+}
+
 export async function parseSentence(sentence: string): Promise<Token[]> {
-  const { data, error } = await client.POST("/parse", { body: { sentence } });
+  const { data, error, response } = await client.POST("/analyse", { body: { sentence } });
 
   if (error) {
+    if (response.status === 422) {
+      throw new LanguageNotSwedishError();
+    }
     throw new Error("Unable to parse sentence");
   }
 

@@ -2,7 +2,9 @@ import { parseSentence } from "@/lib/api/service";
 
 export default defineBackground(() => {
   browser.action.onClicked.addListener((tab) => {
-    browser.sidePanel.open({ tabId: tab.id });
+    if (tab.id) {
+      browser.sidePanel.open({ tabId: tab.id });
+    }
   });
 
   browser.runtime.onMessage.addListener(async (message) => {

@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/parse": {
+    "/analyse": {
         parameters: {
             query?: never;
             header?: never;
@@ -13,8 +13,25 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Parse Sentence */
-        post: operations["parse_sentence_parse_post"];
+        /** Analyse Sentence */
+        post: operations["analyse_sentence_analyse_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/define": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Define Word */
+        post: operations["define_word_define_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -25,6 +42,19 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** AnalyseRequest */
+        AnalyseRequest: {
+            /**
+             * Sentence
+             * @description Swedish text to analyse
+             */
+            sentence: string;
+        };
+        /** AnalyseResponse */
+        AnalyseResponse: {
+            /** Tokens */
+            tokens: (components["schemas"]["NounToken"] | components["schemas"]["VerbToken"] | components["schemas"]["PronounToken"] | components["schemas"]["BaseToken"])[];
+        };
         /** BaseToken */
         BaseToken: {
             /**
@@ -34,20 +64,52 @@ export interface components {
             text: string;
             /** @description The category of the word derived from the universal part of speech tag. */
             part_of_speech: components["schemas"]["PartOfSpeech"] | null;
-            /** @description The dictionary definition of the word from folkets lexikon */
-            definition: components["schemas"]["DictionaryEntry"] | null;
+            /**
+             * Definitions
+             * @description Dictionary definitions for this word
+             */
+            definitions?: components["schemas"]["Definition"][];
+        };
+        /** DefineRequest */
+        DefineRequest: {
+            /**
+             * Text
+             * @description The word to look up
+             */
+            text: string;
+            /**
+             * Pos
+             * @description Optional part of speech for filtering
+             */
+            pos?: ("noun" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection" | "punctuation") | null;
+        };
+        /** DefineResponse */
+        DefineResponse: {
+            /**
+             * Text
+             * @description The word that was looked up
+             */
+            text: string;
+            /**
+             * Pos
+             * @description Part of speech used for filtering
+             */
+            pos: ("noun" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection" | "punctuation") | null;
+            /**
+             * Definitions
+             * @description Dictionary definitions filtered by part of speech
+             */
+            definitions: components["schemas"]["Definition"][];
         };
         /**
-         * DictionaryEntry
-         * @description Represents a dictionary entry.
+         * Definition
+         * @description Public API representation of a definition.
          */
-        DictionaryEntry: {
-            /** Headword */
-            headword: string;
-            /** Part Of Speech */
-            part_of_speech: string | null;
+        Definition: {
+            /** Translations */
+            translations: string[];
             /** Definition */
-            definition: string | null;
+            definition?: string | null;
         };
         /** HTTPValidationError */
         HTTPValidationError: {
@@ -72,26 +134,22 @@ export interface components {
             text: string;
             /** @description The category of the word derived from the universal part of speech tag. */
             part_of_speech: components["schemas"]["PartOfSpeech"] | null;
-            /** @description The dictionary definition of the word from folkets lexikon */
-            definition: components["schemas"]["DictionaryEntry"] | null;
+            /**
+             * Definitions
+             * @description Dictionary definitions for this word
+             */
+            definitions?: components["schemas"]["Definition"][];
             morphology: components["schemas"]["NounMorphology"];
-        };
-        /** ParseRequest */
-        ParseRequest: {
-            /** Sentence */
-            sentence: string;
-        };
-        /** ParseResponse */
-        ParseResponse: {
-            /** Tokens */
-            tokens: (components["schemas"]["NounToken"] | components["schemas"]["VerbToken"] | components["schemas"]["PronounToken"] | components["schemas"]["BaseToken"])[];
         };
         /** PartOfSpeech */
         PartOfSpeech: {
             /** Title */
             title: string;
-            /** Id */
-            id: string;
+            /**
+             * Id
+             * @enum {string}
+             */
+            id: "noun" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection" | "punctuation";
         };
         /** PronounMorphology */
         PronounMorphology: {
@@ -110,8 +168,11 @@ export interface components {
             text: string;
             /** @description The category of the word derived from the universal part of speech tag. */
             part_of_speech: components["schemas"]["PartOfSpeech"] | null;
-            /** @description The dictionary definition of the word from folkets lexikon */
-            definition: components["schemas"]["DictionaryEntry"] | null;
+            /**
+             * Definitions
+             * @description Dictionary definitions for this word
+             */
+            definitions?: components["schemas"]["Definition"][];
             morphology: components["schemas"]["PronounMorphology"];
         };
         /** ValidationError */
@@ -139,8 +200,11 @@ export interface components {
             text: string;
             /** @description The category of the word derived from the universal part of speech tag. */
             part_of_speech: components["schemas"]["PartOfSpeech"] | null;
-            /** @description The dictionary definition of the word from folkets lexikon */
-            definition: components["schemas"]["DictionaryEntry"] | null;
+            /**
+             * Definitions
+             * @description Dictionary definitions for this word
+             */
+            definitions?: components["schemas"]["Definition"][];
             morphology: components["schemas"]["VerbMorphology"];
         };
     };
@@ -152,7 +216,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    parse_sentence_parse_post: {
+    analyse_sentence_analyse_post: {
         parameters: {
             query?: never;
             header?: never;
@@ -161,7 +225,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["ParseRequest"];
+                "application/json": components["schemas"]["AnalyseRequest"];
             };
         };
         responses: {
@@ -171,7 +235,40 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ParseResponse"];
+                    "application/json": components["schemas"]["AnalyseResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    define_word_define_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DefineRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DefineResponse"];
                 };
             };
             /** @description Validation Error */
