@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fly } from "svelte/transition";
-  import TokenCard from "./TokenCard.svelte";
-  import { type Token } from "./api/service"
+  import TokenCard from "@/lib/components/TokenCard.svelte";
+  import { type Token } from "@/lib/api/types";
 
   let { tokens } = $props<{ tokens: Token[] }>();
 </script>

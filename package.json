@@ -1,6 +1,6 @@
 {
-  "name": "grammlin-svenska",
-  "description": "manifest.json description",
+  "name": "Grammlin",
+  "description": "Grammlin is a tool for Swedish language learners providing grammatical information and word definitions.",
   "private": true,
   "version": "0.0.0",
   "type": "module",

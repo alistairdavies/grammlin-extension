@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { type Token } from "./api/types";
-    import Badge, { type BadgeVariant } from "./components/Badge.svelte";
+    import { type Token } from "@/lib/api/types";
+    import Badge, { type BadgeVariant } from "@/lib/components/common/Badge.svelte";
   let { token } = $props<{ token: Token }>();
 
   let expanded = $state(false);
