@@ -4,7 +4,8 @@
     import Status from '@/lib/components/common/Status.svelte';
     import Nav from '@/lib/components/Nav.svelte';
     import TokenList from '@/lib/components/TokenList.svelte';
-    import { Highlighter, MessageCircleQuestionMark, TriangleAlert } from '@lucide/svelte';
+    import { Languages, MessageCircleQuestionMark, TriangleAlert } from '@lucide/svelte';
+    import TextHighlight from '@/lib/components/TextHighlight.svelte';
 
   type State =
     | { type: 'empty' }
@@ -25,13 +26,14 @@
 
 <main>
   <Nav />
+
   {#if state.type === 'tokens'}
     <TokenList tokens={state.tokens} />
   {:else if state.type === 'error' && state.errorType === 'invalid'}
     <Status
       icon={MessageCircleQuestionMark}
       title="Unable to analyse"
-      description="This doesn't appear to be Swedish text"
+      description="There is no information available for this text. Please try highlighting valid Swedish text."
     />
   {:else if state.type === 'error' && state.errorType === 'unexpected'}
     <Status
@@ -41,10 +43,18 @@
       variant="error"
     />
   {:else}
-    <Status
-      icon={Highlighter}
-      title="Nothing selected"
-      description="Highlight Swedish text on any page to get started"
-    />
+    <div class="flex flex-col items-center justify-center my-6 px-6 text-center">
+      <Languages size={48}/>
+      <p class="text-sm text-base-content mt-2 leading-relaxed max-w-72">
+        Grammar breakdowns, definitions, and translations as you learn Swedish.
+      </p>
+
+      <div class="my-8 px-6 ">
+        <p class="text-sm text-base-content/60 mb-2">
+          Highlight some Swedish to get started
+        </p>
+        <TextHighlight/>
+      </div>
+    </div>
   {/if}
 </main>
