@@ -4,6 +4,7 @@
     import Status from '@/lib/components/common/Status.svelte';
     import Nav from '@/lib/components/Nav.svelte';
     import TokenList from '@/lib/components/TokenList.svelte';
+    import Settings from '@/lib/components/Settings.svelte';
     import { Languages, MessageCircleQuestionMark, TriangleAlert } from '@lucide/svelte';
     import TextHighlight from '@/lib/components/TextHighlight.svelte';
 
@@ -12,7 +13,14 @@
     | { type: 'tokens'; tokens: Token[] }
     | { type: 'error'; errorType: 'invalid' | 'unexpected' };
 
+  type SidePanelView = 'main' | 'settings';
+
   let state: State = { type: 'empty' };
+  let currentView: SidePanelView = 'main';
+
+  function toggleSettings() {
+    currentView = currentView === 'main' ? 'settings' : 'main';
+  }
 
   browser.runtime.onMessage.addListener((message: ExtensionEvent) => {
     if (message.action === "displayAnalysedSentence") {
@@ -25,9 +33,11 @@
 </script>
 
 <main>
-  <Nav />
+  <Nav {toggleSettings} />
 
-  {#if state.type === 'tokens'}
+  {#if currentView === 'settings'}
+    <Settings />
+  {:else if state.type === 'tokens'}
     <TokenList tokens={state.tokens} />
   {:else if state.type === 'error' && state.errorType === 'invalid'}
     <Status
