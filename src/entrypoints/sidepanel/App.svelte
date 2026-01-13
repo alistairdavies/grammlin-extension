@@ -5,7 +5,7 @@
     import Nav from '@/lib/components/Nav.svelte';
     import TokenList from '@/lib/components/TokenList.svelte';
     import Settings from '@/lib/components/Settings.svelte';
-    import { Languages, MessageCircleQuestionMark, TriangleAlert } from '@lucide/svelte';
+    import { MessageCircleQuestionMark, TriangleAlert } from '@lucide/svelte';
     import TextHighlight from '@/lib/components/TextHighlight.svelte';
 
   type State =
@@ -54,7 +54,7 @@
     />
   {:else}
     <div class="flex flex-col items-center justify-center my-6 px-6 text-center">
-      <Languages size={48}/>
+      <img src="/icon.svg" alt="Grammlin Svenska" class="w-12 h-12" />
       <p class="text-sm text-base-content mt-2 leading-relaxed max-w-72">
         Grammar breakdowns, definitions, and translations as you learn Swedish.
       </p>
