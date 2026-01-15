@@ -11,7 +11,7 @@ export default defineConfig({
   manifest: {
     permissions: ["sidePanel"],
     action: {
-      default_title: "Swedish Learning Assistant",
+      default_title: "Grammlin - Swedish Grammar Tool for learners",
     },
   },
 });

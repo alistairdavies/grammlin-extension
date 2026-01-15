@@ -1,3 +1,6 @@
+<script lang="ts">
+</script>
+
 <div class="mt-36 px-6 py-4 border-t border-base-300">
   <h3 class="text-sm font-semibold mb-2 text-base-content/70">Extension Data Sources</h3>
 

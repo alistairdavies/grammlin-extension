@@ -22,13 +22,14 @@
     currentView = currentView === 'main' ? 'settings' : 'main';
   }
 
-  browser.runtime.onMessage.addListener((message: ExtensionEvent) => {
+  browser.runtime.onMessage.addListener((message: ExtensionEvent, _sender, sendResponse) => {
     if (message.action === "displayAnalysedSentence") {
       state = { type: 'tokens', tokens: message.tokens };
     } else if (message.action === "displayAnalyseError") {
       state = { type: 'error', errorType: message.errorType };
     }
-    return true
+
+    sendResponse()
   });
 </script>
 
