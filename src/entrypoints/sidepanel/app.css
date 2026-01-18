@@ -1,14 +1,14 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
 
-
 #app {
-  @apply w-full h-full;
+  @apply h-full w-full;
 }
 
 main {
@@ -16,5 +16,5 @@ main {
 }
 
 .container {
-  @apply w-full max-w-5xl mx-auto px-4;
+  @apply mx-auto w-full max-w-5xl px-4;
 }

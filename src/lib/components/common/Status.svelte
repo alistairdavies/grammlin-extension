@@ -1,20 +1,22 @@
 <script lang="ts">
+  import type { Component } from "svelte";
+  import type { IconProps } from "@lucide/svelte";
   import StatusHeader from "@/lib/components/common/StatusHeader.svelte";
 
   let {
     icon,
     title,
     description,
-    variant = "default"
+    variant = "default",
   }: {
-    icon: any;
+    icon: Component<IconProps>;
     title: string;
     description: string;
     variant?: "default" | "error";
   } = $props();
 </script>
 
-<div class="py-10 px-6 text-center">
+<div class="px-6 py-10 text-center">
   <StatusHeader {icon} {title} {variant} />
-  <p class="text-xs text-base-content/50 mt-1">{description}</p>
+  <p class="text-base-content/50 mt-1 text-xs">{description}</p>
 </div>

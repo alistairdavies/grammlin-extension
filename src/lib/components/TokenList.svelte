@@ -6,11 +6,10 @@
   let { tokens } = $props<{ tokens: Token[] }>();
 </script>
 
-<div class="flex flex-col gap-2 m-2">
-  {#each tokens as token}
-    <div  transition:fly={{ x: -200, duration: 500 }}>
+<div class="m-2 flex flex-col gap-2">
+  {#each tokens as token, index (index)}
+    <div transition:fly={{ x: -200, duration: 500 }}>
       <TokenCard {token} />
     </div>
   {/each}
 </div>
-

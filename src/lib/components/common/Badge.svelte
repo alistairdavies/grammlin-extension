@@ -1,5 +1,15 @@
 <script lang="ts">
-  export type BadgeVariant = "blue" | "green" | "amber" | "purple" | "yellow" | "red" | "gray" | "navy" | "turqouise" | "lime";
+  export type BadgeVariant =
+    | "blue"
+    | "green"
+    | "amber"
+    | "purple"
+    | "yellow"
+    | "red"
+    | "gray"
+    | "navy"
+    | "turqouise"
+    | "lime";
 
   let { text, variant = "gray" } = $props<{
     text: string;

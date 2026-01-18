@@ -1,4 +1,4 @@
-import type { Token } from '@/lib/api/types';
+import type { Token } from "@/lib/api/types";
 
 export type ExtensionEvent =
   | { action: "analyseSentence"; text: string }

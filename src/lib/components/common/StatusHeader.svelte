@@ -1,10 +1,13 @@
 <script lang="ts">
+  import type { Component } from "svelte";
+  import type { IconProps } from "@lucide/svelte";
+
   let {
     icon: Icon,
     title,
-    variant = "default"
+    variant = "default",
   }: {
-    icon: any;
+    icon: Component<IconProps>;
     title: string;
     variant?: "default" | "error";
   } = $props();
@@ -12,18 +15,20 @@
   const variantStyles = {
     default: {
       bgClass: "bg-neutral-100",
-      iconClass: ""
+      iconClass: "",
     },
     error: {
       bgClass: "bg-error/10",
-      iconClass: "text-error"
-    }
+      iconClass: "text-error",
+    },
   };
 
   const styles = variantStyles[variant];
 </script>
 
-<div class="w-12 h-12 mx-auto mb-2 rounded-full {styles.bgClass} flex items-center justify-center">
-  <Icon size={24} class={styles.iconClass}/>
+<div
+  class="mx-auto mb-2 h-12 w-12 rounded-full {styles.bgClass} flex items-center justify-center"
+>
+  <Icon size={24} class={styles.iconClass} />
 </div>
-<p class="text-sm font-medium text-base-content">{title}</p>
+<p class="text-base-content text-sm font-medium">{title}</p>

@@ -19,7 +19,7 @@ export async function parseSentence(sentence: string): Promise<Token[]> {
     }
 
     throw new UnexpectedResponseError(
-      `Unexpected ${response.status} response when analyising sentence`,
+      `Unexpected ${response.status} response when analysing sentence`,
     );
   }
 

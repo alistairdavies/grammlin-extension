@@ -1,0 +1,4 @@
+.output
+.wxt
+node_modules
+src/lib/api/grammar_client.d.ts
