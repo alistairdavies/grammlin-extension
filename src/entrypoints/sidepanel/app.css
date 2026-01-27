@@ -88,6 +88,12 @@
   --pos-numeral-bg: #f3f4f3;    /* neutral stone */
   --pos-numeral-text: #5a5d5a;  /* dark stone */
 
+  --pos-auxiliary_verb-bg: #f8f2ee; /* pale terracotta */
+  --pos-auxiliary_verb-text: #7a5040; /* muted rust */
+
+  --pos-punctuation-bg: #f4f4f4; /* light silver */
+  --pos-punctuation-text: #6b6b6b; /* mid grey */
+
   --pos-default-bg: #f4f5f4;    /* light grey-green */
   --pos-default-text: #4a5248;  /* muted charcoal */
 }

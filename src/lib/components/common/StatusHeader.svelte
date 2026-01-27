@@ -14,7 +14,7 @@
 
   const variantStyles = {
     default: {
-      bgClass: "bg-neutral-100",
+      bgClass: "bg-base-200",
       iconClass: "",
     },
     error: {

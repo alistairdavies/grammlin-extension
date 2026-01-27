@@ -1,6 +1,8 @@
 import type { components } from "./grammar_client";
 
-type PartOfSpeech = components["schemas"]["PartOfSpeech"];
+export type PartOfSpeech = NonNullable<
+  components["schemas"]["BaseToken"]["part_of_speech"]
+>;
 
 export type Token = {
   text: string;

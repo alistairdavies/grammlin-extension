@@ -4,6 +4,23 @@
  */
 
 export interface paths {
+    "/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Health Check */
+        get: operations["health_check_health_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/analyse": {
         parameters: {
             query?: never;
@@ -15,23 +32,6 @@ export interface paths {
         put?: never;
         /** Analyse Sentence */
         post: operations["analyse_sentence_analyse_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/define": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Define Word */
-        post: operations["define_word_define_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -62,44 +62,21 @@ export interface components {
              * @description The original word in the given text.
              */
             text: string;
-            /** @description The category of the word derived from the universal part of speech tag. */
-            part_of_speech: components["schemas"]["PartOfSpeech"] | null;
+            /**
+             * Lemma
+             * @description The lemma or base form of the original word.
+             */
+            lemma: string;
+            /**
+             * Part Of Speech
+             * @description The category of the word derived from the universal part of speech tag.
+             */
+            part_of_speech: ("noun" | "numeral" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection" | "punctuation") | null;
             /**
              * Definitions
              * @description Dictionary definitions for this word
              */
             definitions?: components["schemas"]["Definition"][];
-        };
-        /** DefineRequest */
-        DefineRequest: {
-            /**
-             * Text
-             * @description The word to look up
-             */
-            text: string;
-            /**
-             * Pos
-             * @description Optional part of speech for filtering
-             */
-            pos?: ("noun" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection" | "punctuation") | null;
-        };
-        /** DefineResponse */
-        DefineResponse: {
-            /**
-             * Text
-             * @description The word that was looked up
-             */
-            text: string;
-            /**
-             * Pos
-             * @description Part of speech used for filtering
-             */
-            pos: ("noun" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection" | "punctuation") | null;
-            /**
-             * Definitions
-             * @description Dictionary definitions filtered by part of speech
-             */
-            definitions: components["schemas"]["Definition"][];
         };
         /**
          * Definition
@@ -115,6 +92,11 @@ export interface components {
         HTTPValidationError: {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
+        };
+        /** HealthResponse */
+        HealthResponse: {
+            /** Status */
+            status: string;
         };
         /** NounMorphology */
         NounMorphology: {
@@ -132,24 +114,22 @@ export interface components {
              * @description The original word in the given text.
              */
             text: string;
-            /** @description The category of the word derived from the universal part of speech tag. */
-            part_of_speech: components["schemas"]["PartOfSpeech"] | null;
+            /**
+             * Lemma
+             * @description The lemma or base form of the original word.
+             */
+            lemma: string;
+            /**
+             * Part Of Speech
+             * @description The category of the word derived from the universal part of speech tag.
+             */
+            part_of_speech: ("noun" | "numeral" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection" | "punctuation") | null;
             /**
              * Definitions
              * @description Dictionary definitions for this word
              */
             definitions?: components["schemas"]["Definition"][];
             morphology: components["schemas"]["NounMorphology"];
-        };
-        /** PartOfSpeech */
-        PartOfSpeech: {
-            /** Title */
-            title: string;
-            /**
-             * Id
-             * @enum {string}
-             */
-            id: "noun" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection" | "punctuation";
         };
         /** PronounMorphology */
         PronounMorphology: {
@@ -166,8 +146,16 @@ export interface components {
              * @description The original word in the given text.
              */
             text: string;
-            /** @description The category of the word derived from the universal part of speech tag. */
-            part_of_speech: components["schemas"]["PartOfSpeech"] | null;
+            /**
+             * Lemma
+             * @description The lemma or base form of the original word.
+             */
+            lemma: string;
+            /**
+             * Part Of Speech
+             * @description The category of the word derived from the universal part of speech tag.
+             */
+            part_of_speech: ("noun" | "numeral" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection" | "punctuation") | null;
             /**
              * Definitions
              * @description Dictionary definitions for this word
@@ -198,8 +186,16 @@ export interface components {
              * @description The original word in the given text.
              */
             text: string;
-            /** @description The category of the word derived from the universal part of speech tag. */
-            part_of_speech: components["schemas"]["PartOfSpeech"] | null;
+            /**
+             * Lemma
+             * @description The lemma or base form of the original word.
+             */
+            lemma: string;
+            /**
+             * Part Of Speech
+             * @description The category of the word derived from the universal part of speech tag.
+             */
+            part_of_speech: ("noun" | "numeral" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection" | "punctuation") | null;
             /**
              * Definitions
              * @description Dictionary definitions for this word
@@ -216,6 +212,26 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    health_check_health_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HealthResponse"];
+                };
+            };
+        };
+    };
     analyse_sentence_analyse_post: {
         parameters: {
             query?: never;
@@ -236,39 +252,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AnalyseResponse"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    define_word_define_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["DefineRequest"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["DefineResponse"];
                 };
             };
             /** @description Validation Error */

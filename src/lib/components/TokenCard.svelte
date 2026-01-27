@@ -1,52 +1,27 @@
 <script lang="ts">
   import { type Token } from "@/lib/api/types";
-  import Badge, {
-    type BadgeVariant,
-  } from "@/lib/components/common/Badge.svelte";
-  let { token } = $props<{ token: Token }>();
+  import Badge from "@/lib/components/common/Badge.svelte";
+  import POSBadge from "@/lib/components/POSBadge.svelte";
+    import { morphologyLabel } from "../i18n/morphology-labels";
+  let { token }: { token: Token } = $props();
 
   let expanded = $state(false);
-
-  function getPOSColor(pos: Token["pos"]): BadgeVariant {
-    switch (pos?.id) {
-      case "verb":
-        return "blue";
-      case "noun":
-        return "green";
-      case "adjective":
-        return "red";
-      case "pronoun":
-        return "purple";
-      case "adverb":
-        return "amber";
-      case "conjunction":
-        return "yellow";
-      case "determiner":
-        return "turqouise";
-      case "preposition":
-        return "lime";
-      case "auxiliary_verb":
-        return "navy";
-      default:
-        return "gray";
-    }
-  }
 </script>
 
 <div
-  class="card bg-base-100 border border-gray-300 transition-shadow hover:shadow-md"
+  class="card bg-base-100 border border-base-300 transition-shadow hover:shadow-md"
 >
   <div class="card-body p-3.5">
     <div class="flex flex-wrap items-center justify-between gap-2">
       <h3 class="card-title mb-0 text-lg">{token.text}</h3>
       {#if token.pos}
-        <Badge text={token.pos.title} variant={getPOSColor(token.pos)} />
+        <POSBadge pos={token.pos} />
       {/if}
     </div>
     {#if token.tags.length > 0}
       <div class="flex gap-1">
         {#each token.tags as tag, index (index)}
-          <Badge text={tag} />
+          <Badge text={morphologyLabel(tag)} className="badge-neutral badge-outline"/>
         {/each}
       </div>
     {/if}
