@@ -40,62 +40,30 @@
   --color-error: oklch(50% 0.2 25);
   --color-error-content: oklch(98% 0.01 25);
 
-  /* Border radius */
   --radius-selector: 0.5rem;
   --radius-field: 0.5rem;
   --radius-box: 0.75rem;
 
-  /* Base sizes */
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
 
-  /* Border size */
   --border: 1px;
-
-  /* Effects */
-  --depth: 1;
-  --noise: 0;
 }
 
 :root {
-  --pos-noun-bg: #f0f5f2;       /* muted sage */
-  --pos-noun-text: #2d5a3d;     /* forest green */
-
-  --pos-verb-bg: #faf5f0;       /* warm cream */
-  --pos-verb-text: #8b5a3c;     /* warm brown */
-
-  --pos-adverb-bg: #f5f4ed;     /* pale sand */
-  --pos-adverb-text: #7a6b4e;   /* muted olive */
-
-  --pos-pronoun-bg: #f2f1f5;    /* cool lavender */
-  --pos-pronoun-text: #5c5478;  /* muted purple */
-
-  --pos-adjective-bg: #eef3f6;  /* pale slate */
-  --pos-adjective-text: #3d5a6b; /* slate blue */
-
-  --pos-preposition-bg: #f5f0f3; /* dusty rose */
-  --pos-preposition-text: #7a5568; /* muted mauve */
-
-  --pos-conjunction-bg: #eff5f4; /* pale mint */
-  --pos-conjunction-text: #3d6b5a; /* deep teal */
-
-  --pos-determiner-bg: #f5f2f1; /* warm grey */
-  --pos-determiner-text: #785a5a; /* dusty red */
-
-  --pos-interjection-bg: #f5f3ef; /* pale wheat */
-  --pos-interjection-text: #8b6b3c; /* golden brown */
-
-  --pos-numeral-bg: #f3f4f3;    /* neutral stone */
-  --pos-numeral-text: #5a5d5a;  /* dark stone */
-
-  --pos-auxiliary_verb-bg: #f8f2ee; /* pale terracotta */
-  --pos-auxiliary_verb-text: #7a5040; /* muted rust */
-
-  --pos-punctuation-bg: #f4f4f4; /* light silver */
-  --pos-punctuation-text: #6b6b6b; /* mid grey */
-
-  --pos-default-bg: #f4f5f4;    /* light grey-green */
-  --pos-default-text: #4a5248;  /* muted charcoal */
+  --pos-noun-bg: #2d7a4a;       /* forest green */
+  --pos-verb-bg: #c45a20;       /* burnt orange */
+  --pos-adverb-bg: #9a8520;     /* mustard gold */
+  --pos-pronoun-bg: #7a5aad;    /* violet */
+  --pos-adjective-bg: #2a7ab8;  /* ocean blue */
+  --pos-preposition-bg: #b04a78; /* magenta */
+  --pos-conjunction-bg: #1a8a7a; /* teal */
+  --pos-determiner-bg: #a84040; /* crimson */
+  --pos-interjection-bg: #d4882a; /* amber */
+  --pos-numeral-bg: #5a6a60;    /* slate green */
+  --pos-auxiliary_verb-bg: #b86030; /* terracotta */
+  --pos-punctuation-bg: #6a6a6a; /* grey */
+  --pos-default-bg: #4a5a50;    /* muted forest */
 }
 
 html,

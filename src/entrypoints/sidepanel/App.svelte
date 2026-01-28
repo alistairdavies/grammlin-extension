@@ -64,7 +64,7 @@
         Grammar breakdowns, definitions, and translations as you learn Swedish.
       </p>
 
-      <div class="my-8 px-6">
+      <div class="mt-6 px-6">
         <p class="text-base-content/60 mb-2 text-sm">
           Highlight some Swedish to get started
         </p>

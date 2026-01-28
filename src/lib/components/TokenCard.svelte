@@ -11,7 +11,7 @@
 <div
   class="card bg-base-100 border border-base-300 transition-shadow hover:shadow-md"
 >
-  <div class="card-body p-3.5">
+  <div class="card-body p-4">
     <div class="flex flex-wrap items-center justify-between gap-2">
       <h3 class="card-title mb-0 text-lg">{token.text}</h3>
       {#if token.pos}
@@ -48,7 +48,7 @@
         </button>
 
         {#if expanded}
-          <div class="border-base-300 mt-2 space-y-1.5 border-t pt-2">
+          <div class="border-base-300 mt-2 space-y-2 border-t pt-2">
             {#each token.definitions.slice(1) as def, index (index)}
               <p
                 class="text-base-content/70 text-left text-sm leading-relaxed italic"

@@ -19,7 +19,7 @@
           Folkets Lexikon
         </a>
       </h4>
-      <dl class="text-base-content/60 space-y-0.5 text-xs">
+      <dl class="text-base-content/60 space-y-1 text-xs">
         <div>
           <dt class="inline">Author:</dt>
           <dd class="ml-1 inline">The People (KTH)</dd>
@@ -52,7 +52,7 @@
           spaCy Swedish Model
         </a>
       </h4>
-      <dl class="text-base-content/60 space-y-0.5 text-xs">
+      <dl class="text-base-content/60 space-y-1 text-xs">
         <div>
           <dt class="inline">Author:</dt>
           <dd class="ml-1 inline">
