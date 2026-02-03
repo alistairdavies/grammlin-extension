@@ -2,14 +2,12 @@
   import { type Token } from "@/lib/api/types";
   import Badge from "@/lib/components/common/Badge.svelte";
   import POSBadge from "@/lib/components/POSBadge.svelte";
-    import { morphologyLabel } from "../i18n/morphology-labels";
+  import { morphologyLabel } from "../i18n/morphology-labels";
   let { token }: { token: Token } = $props();
-
-  let expanded = $state(false);
 </script>
 
 <div
-  class="card bg-base-100 border border-base-300 transition-shadow hover:shadow-md"
+  class="card bg-base-100 border border-accent/25 transition-shadow hover:shadow-md"
 >
   <div class="card-body p-4">
     <div class="flex flex-wrap items-center justify-between gap-2">
@@ -26,39 +24,21 @@
       </div>
     {/if}
 
-    {#if token.definitions.length > 0}
-      <p
-        class="text-base-content/70 mt-2 text-left text-sm leading-relaxed italic"
-      >
-        {token.definitions[0]}
-      </p>
-
-      {#if token.definitions.length > 1}
-        <button
-          onclick={() => (expanded = !expanded)}
-          class="text-primary hover:text-primary-focus mt-2 flex items-center gap-1 text-left text-sm hover:cursor-pointer"
-        >
-          <span class="font-mono">{expanded ? "−" : "+"}</span>
-          <span
-            >{token.definitions.length - 1} other {token.definitions.length ===
-            2
-              ? "meaning"
-              : "meanings"}</span
-          >
-        </button>
-
-        {#if expanded}
-          <div class="border-base-300 mt-2 space-y-2 border-t pt-2">
-            {#each token.definitions.slice(1) as def, index (index)}
-              <p
-                class="text-base-content/70 text-left text-sm leading-relaxed italic"
-              >
-                {def}
+    {#if token.definitions.length > 0 }
+      <div class="divide-base-300 mt-2 divide-y">
+        {#each token.definitions as def, index (index)}
+          <div class="py-2 first:pt-0 last:pb-0">
+            {#if def.definition}
+              <p class="text-base-content text-left text-sm leading-relaxed italic">
+                {def.definition}
               </p>
-            {/each}
+            {/if}
+            <p class="text-base-content/60 text-left text-sm leading-relaxed">
+              {def.translations.join(", ")}
+            </p>
           </div>
-        {/if}
-      {/if}
+        {/each}
+      </div>
     {/if}
   </div>
 </div>

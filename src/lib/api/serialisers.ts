@@ -1,5 +1,5 @@
 import type { components } from "./grammar_client";
-import type { Token } from "./types";
+import type { Token, Definition } from "./types";
 
 type TokenResponse = components["schemas"]["AnalyseResponse"]["tokens"][number];
 
@@ -15,6 +15,7 @@ function serialiseToken(token: TokenResponse): Token {
 
   return {
     text: token.text,
+    lemma: token.lemma,
     pos: token.part_of_speech,
     definitions: serialiseDefinitions(token.definitions),
     tags,
@@ -29,10 +30,11 @@ function serialiseMorphology(morphology: Record<string, unknown>): string[] {
 
 function serialiseDefinitions(
   definitions?: components["schemas"]["Definition"][],
-): string[] {
+): Definition[] {
   return (
-    definitions
-      ?.map((def) => def.definition)
-      .filter((d): d is string => d != null) ?? []
+    definitions?.map((def) => ({
+      translations: def.translations,
+      definition: def.definition ?? null,
+    })) ?? []
   );
 }
