@@ -4,6 +4,7 @@
   import Status from "@/lib/components/common/Status.svelte";
   import Nav from "@/lib/components/Nav.svelte";
   import TokenList from "@/lib/components/TokenList.svelte";
+  import TokenisedSentence from "@/lib/components/TokenisedSentence.svelte";
   import Settings from "@/lib/components/Settings.svelte";
   import { MessageCircleQuestionMark, TriangleAlert } from "@lucide/svelte";
   import TextHighlight from "@/lib/components/TextHighlight.svelte";
@@ -15,19 +16,32 @@
 
   type SidePanelView = "main" | "settings";
 
-  let state: State = { type: "empty" };
-  let currentView: SidePanelView = "main";
-
+  let panelState: State = $state({ type: "empty" });
+  let currentView: SidePanelView = $state("main");
   function toggleSettings() {
     currentView = currentView === "main" ? "settings" : "main";
+  }
+
+  let selectedTokenIndex: number | null = $state(null);
+  let highlightTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function handleTokenSelect(index: number) {
+    if (highlightTimer) clearTimeout(highlightTimer);
+    selectedTokenIndex = index;
+    document
+      .getElementById(`token-${index}`)
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    highlightTimer = setTimeout(() => {
+      selectedTokenIndex = null;
+    }, 1500);
   }
 
   browser.runtime.onMessage.addListener(
     (message: ExtensionEvent, _sender, sendResponse) => {
       if (message.action === "displayAnalysedSentence") {
-        state = { type: "tokens", tokens: message.tokens };
+        panelState = { type: "tokens", tokens: message.tokens };
       } else if (message.action === "displayAnalyseError") {
-        state = { type: "error", errorType: message.errorType };
+        panelState = { type: "error", errorType: message.errorType };
       }
 
       sendResponse();
@@ -40,15 +54,16 @@
 
   {#if currentView === "settings"}
     <Settings />
-  {:else if state.type === "tokens"}
-    <TokenList tokens={state.tokens} />
-  {:else if state.type === "error" && state.errorType === "invalid"}
+  {:else if panelState.type === "tokens"}
+    <TokenisedSentence tokens={panelState.tokens} onSelect={handleTokenSelect} />
+    <TokenList tokens={panelState.tokens} selectedIndex={selectedTokenIndex} />
+  {:else if panelState.type === "error" && panelState.errorType === "invalid"}
     <Status
       icon={MessageCircleQuestionMark}
       title="Unable to analyse"
       description="There is no information available for this text. Please try highlighting valid Swedish text."
     />
-  {:else if state.type === "error" && state.errorType === "unexpected"}
+  {:else if panelState.type === "error" && panelState.errorType === "unexpected"}
     <Status
       icon={TriangleAlert}
       title="Something went wrong"
