@@ -1,6 +1,71 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+@plugin "daisyui/theme" {
+  name: "nordic-pine";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+
+  /* Primary - Deep pine green */
+  --color-primary: oklch(38% 0.1 160);
+  --color-primary-content: oklch(98% 0.01 160);
+
+  /* Secondary - Softer green */
+  --color-secondary: oklch(45% 0.05 155);
+  --color-secondary-content: oklch(98% 0.01 155);
+
+  /* Accent - Teal */
+  --color-accent: oklch(40% 0.08 190);
+  --color-accent-content: oklch(98% 0.01 190);
+
+  /* Neutral - Green-tinted grey */
+  --color-neutral: oklch(25% 0.03 155);
+  --color-neutral-content: oklch(92% 0.02 155);
+
+  /* Info - Blue */
+  --color-info: oklch(45% 0.1 250);
+  --color-info-content: oklch(98% 0.01 250);
+
+  /* Success - Deeper green */
+  --color-success: oklch(45% 0.15 145);
+  --color-success-content: oklch(98% 0.01 145);
+
+  /* Warning - Warm amber */
+  --color-warning: oklch(75% 0.15 85);
+  --color-warning-content: oklch(25% 0.05 85);
+
+  /* Error - Warm red */
+  --color-error: oklch(50% 0.2 25);
+  --color-error-content: oklch(98% 0.01 25);
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  --border: 1px;
+}
+
+:root {
+  --pos-noun-bg: #2d7a4a;       /* forest green */
+  --pos-verb-bg: #c45a20;       /* burnt orange */
+  --pos-adverb-bg: #9a8520;     /* mustard gold */
+  --pos-pronoun-bg: #7a5aad;    /* violet */
+  --pos-adjective-bg: #2a7ab8;  /* ocean blue */
+  --pos-preposition-bg: #b04a78; /* magenta */
+  --pos-conjunction-bg: #1a8a7a; /* teal */
+  --pos-determiner-bg: #a84040; /* crimson */
+  --pos-interjection-bg: #d4882a; /* amber */
+  --pos-numeral-bg: #5a6a60;    /* slate green */
+  --pos-auxiliary_verb-bg: #b86030; /* terracotta */
+  --pos-punctuation-bg: #6a6a6a; /* grey */
+  --pos-default-bg: #4a5a50;    /* muted forest */
+}
+
 html,
 body {
   margin: 0;
@@ -18,3 +83,4 @@ main {
 .container {
   @apply mx-auto w-full max-w-5xl px-4;
 }
+
