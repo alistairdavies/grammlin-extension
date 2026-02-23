@@ -2,7 +2,8 @@
   import { type Token } from "@/lib/api/types";
   import Badge from "@/lib/components/common/Badge.svelte";
   import POSBadge from "@/lib/components/POSBadge.svelte";
-  import { morphologyLabel } from "../i18n/morphology-labels";
+  import { morphologyLabel } from "@/lib/i18n/morphology-labels";
+  import { getGrammarLanguage } from "@/lib/settings.svelte";
   let { token }: { token: Token } = $props();
 </script>
 
@@ -19,7 +20,7 @@
     {#if token.tags.length > 0}
       <div class="flex gap-1">
         {#each token.tags as tag, index (index)}
-          <Badge text={morphologyLabel(tag)} className="badge-neutral badge-outline"/>
+          <Badge text={morphologyLabel(tag, getGrammarLanguage())} className="badge-neutral badge-outline"/>
         {/each}
       </div>
     {/if}

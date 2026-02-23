@@ -1,15 +1,12 @@
 <script lang="ts">
   import About from "@/lib/components/About.svelte";
-
-  let explanationLanguage = $state<"en" | "sv">("en");
-  let showTranslations = $state(false);
+  import {
+    getGrammarLanguage,
+    setGrammarLanguage,
+  } from "@/lib/settings.svelte";
 
   function toggleLanguage() {
-    explanationLanguage = explanationLanguage === "en" ? "sv" : "en";
-  }
-
-  function toggleTranslations() {
-    showTranslations = !showTranslations;
+    setGrammarLanguage(getGrammarLanguage() === "en" ? "sv" : "en");
   }
 </script>
 
@@ -29,28 +26,13 @@
           <input
             type="checkbox"
             class="toggle toggle-sm toggle-primary"
-            disabled
-            checked={explanationLanguage === "sv"}
+            checked={getGrammarLanguage() === "en"}
             onchange={toggleLanguage}
           />
         </div>
       </div>
 
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="text-sm font-medium">English Translations</p>
-          <p class="text-base-content/60 text-xs">Show English translations</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <input
-            type="checkbox"
-            class="toggle toggle-sm toggle-primary"
-            disabled
-            checked={showTranslations}
-            onchange={toggleTranslations}
-          />
-        </div>
-      </div>
+
     </div>
   </div>
 

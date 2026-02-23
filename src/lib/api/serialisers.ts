@@ -1,5 +1,5 @@
 import type { components } from "./grammar_client";
-import type { Token, Definition } from "./types";
+import type { Token, Definition, MorphologyTag } from "./types";
 
 type TokenResponse = components["schemas"]["AnalyseResponse"]["tokens"][number];
 
@@ -22,9 +22,11 @@ function serialiseToken(token: TokenResponse): Token {
   };
 }
 
-function serialiseMorphology(morphology: Record<string, unknown>): string[] {
+function serialiseMorphology(
+  morphology: Record<string, unknown>,
+): MorphologyTag[] {
   return Object.values(morphology).filter(
-    (value): value is string => typeof value === "string",
+    (value): value is MorphologyTag => typeof value === "string",
   );
 }
 
