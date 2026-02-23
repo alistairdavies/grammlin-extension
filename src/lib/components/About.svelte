@@ -3,7 +3,7 @@
 
 <div class="border-base-300 mt-36 border-t px-6 py-4">
   <h3 class="text-base-content/70 mb-2 text-sm font-semibold">
-    Extension Data Sources
+    Data Sources
   </h3>
 
   <div class="space-y-2">

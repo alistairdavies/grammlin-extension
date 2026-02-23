@@ -40,6 +40,7 @@
     (message: ExtensionEvent, _sender, sendResponse) => {
       if (message.action === "displayAnalysedSentence") {
         panelState = { type: "tokens", tokens: message.tokens };
+        window.scrollTo({ top: 0 });
       } else if (message.action === "displayAnalyseError") {
         panelState = { type: "error", errorType: message.errorType };
       }
