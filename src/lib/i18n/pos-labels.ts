@@ -13,7 +13,6 @@ const posLabels: Record<PartOfSpeech, Record<GrammarLanguage, string>> = {
   interjection: { en: "Interjection", sv: "Interjektion" },
   numeral: { en: "Numeral", sv: "Räkneord" },
   auxiliary_verb: { en: "Auxiliary verb", sv: "Hjälpverb" },
-  punctuation: { en: "Punctuation", sv: "Skiljetecken" },
 };
 
 export function posLabel(

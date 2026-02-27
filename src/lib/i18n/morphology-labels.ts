@@ -3,6 +3,9 @@ import type { GrammarLanguage } from "@/lib/i18n/types";
 
 const morphologyLabels: Record<MorphologyTag, Record<GrammarLanguage, string>> =
   {
+    positive: { en: "basic form", sv: "positiv" },
+    comparative: { en: "comparative", sv: "komparativ" },
+    superlative: { en: "superlative", sv: "superlativ" },
     common: { en: "en word", sv: "en-ord" },
     neuter: { en: "ett word", sv: "ett-ord" },
     definite: { en: "definite", sv: "bestämd" },

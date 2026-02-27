@@ -4,11 +4,13 @@ export type PartOfSpeech = NonNullable<
   components["schemas"]["BaseToken"]["part_of_speech"]
 >;
 
+type AdjectiveMorphology = components["schemas"]["AdjectiveMorphology"];
 type NounMorphology = components["schemas"]["NounMorphology"];
 type PronounMorphology = components["schemas"]["PronounMorphology"];
 type VerbMorphology = components["schemas"]["VerbMorphology"];
 
 export type MorphologyTag =
+  | NonNullable<AdjectiveMorphology["degree"]>
   | NonNullable<NounMorphology["gender"]>
   | NonNullable<NounMorphology["definiteness"]>
   | NonNullable<NounMorphology["plurality"]>

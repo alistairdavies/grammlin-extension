@@ -12,7 +12,6 @@ const posColorVars: Record<PartOfSpeech, string> = {
   interjection: "var(--pos-interjection-bg)",
   numeral: "var(--pos-numeral-bg)",
   auxiliary_verb: "var(--pos-auxiliary_verb-bg)",
-  punctuation: "var(--pos-punctuation-bg)",
 };
 
 export function posColor(pos: PartOfSpeech | null): string {

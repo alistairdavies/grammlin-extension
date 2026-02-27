@@ -42,6 +42,35 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** AdjectiveMorphology */
+        AdjectiveMorphology: {
+            /** Degree */
+            degree?: ("positive" | "comparative" | "superlative") | null;
+        };
+        /** AdjectiveToken */
+        AdjectiveToken: {
+            /**
+             * Text
+             * @description The original word in the given text.
+             */
+            text: string;
+            /**
+             * Lemma
+             * @description The lemma or base form of the original word.
+             */
+            lemma: string;
+            /**
+             * Part Of Speech
+             * @description The category of the word derived from the universal part of speech tag.
+             */
+            part_of_speech: ("noun" | "numeral" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection") | null;
+            /**
+             * Definitions
+             * @description Dictionary definitions for this word
+             */
+            definitions?: components["schemas"]["Definition"][];
+            morphology: components["schemas"]["AdjectiveMorphology"];
+        };
         /** AnalyseRequest */
         AnalyseRequest: {
             /**
@@ -53,7 +82,7 @@ export interface components {
         /** AnalyseResponse */
         AnalyseResponse: {
             /** Tokens */
-            tokens: (components["schemas"]["NounToken"] | components["schemas"]["VerbToken"] | components["schemas"]["PronounToken"] | components["schemas"]["BaseToken"])[];
+            tokens: (components["schemas"]["NounToken"] | components["schemas"]["VerbToken"] | components["schemas"]["AdjectiveToken"] | components["schemas"]["PronounToken"] | components["schemas"]["BaseToken"])[];
         };
         /** BaseToken */
         BaseToken: {
@@ -71,7 +100,7 @@ export interface components {
              * Part Of Speech
              * @description The category of the word derived from the universal part of speech tag.
              */
-            part_of_speech: ("noun" | "numeral" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection" | "punctuation") | null;
+            part_of_speech: ("noun" | "numeral" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection") | null;
             /**
              * Definitions
              * @description Dictionary definitions for this word
@@ -123,7 +152,7 @@ export interface components {
              * Part Of Speech
              * @description The category of the word derived from the universal part of speech tag.
              */
-            part_of_speech: ("noun" | "numeral" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection" | "punctuation") | null;
+            part_of_speech: ("noun" | "numeral" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection") | null;
             /**
              * Definitions
              * @description Dictionary definitions for this word
@@ -155,7 +184,7 @@ export interface components {
              * Part Of Speech
              * @description The category of the word derived from the universal part of speech tag.
              */
-            part_of_speech: ("noun" | "numeral" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection" | "punctuation") | null;
+            part_of_speech: ("noun" | "numeral" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection") | null;
             /**
              * Definitions
              * @description Dictionary definitions for this word
@@ -195,7 +224,7 @@ export interface components {
              * Part Of Speech
              * @description The category of the word derived from the universal part of speech tag.
              */
-            part_of_speech: ("noun" | "numeral" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection" | "punctuation") | null;
+            part_of_speech: ("noun" | "numeral" | "verb" | "auxiliary_verb" | "adjective" | "adverb" | "pronoun" | "determiner" | "conjunction" | "preposition" | "interjection") | null;
             /**
              * Definitions
              * @description Dictionary definitions for this word
