@@ -1,7 +1,20 @@
-# WXT + Svelte
+# Grammlin Extension
 
-This template should help get you started developing with Svelte in WXT.
+A browser extension for Swedish language learners that provides grammatical breakdowns and word definitions for selected text.
 
-## Recommended IDE Setup
+## Tech Stack
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+- [WXT](https://wxt.dev/)
+- Svelte 5
+- Tailwind CSS + DaisyUI
+- TypeScript
+
+## Local Development
+
+```bash
+npm install
+```
+
+```bash
+npm run dev
+```

@@ -36,6 +36,8 @@
     }, 1500);
   }
 
+  browser.runtime.connect({ name: "sidepanel" });
+
   browser.runtime.onMessage.addListener(
     (message: ExtensionEvent, _sender, sendResponse) => {
       if (message.action === "displayAnalysedSentence") {
