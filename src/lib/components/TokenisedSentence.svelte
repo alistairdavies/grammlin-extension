@@ -11,11 +11,13 @@
   } = $props();
 </script>
 
-<div class="bg-base-100 border-base-300 sticky top-0 z-10 max-h-28 overflow-y-auto border-b px-4 pb-5 pt-4">
+<div
+  class="bg-base-100 border-base-300 sticky top-0 z-10 max-h-28 overflow-y-auto border-b px-4 pt-4 pb-5"
+>
   <p class="flex flex-wrap gap-2">
     {#each tokens as token, index (index)}
       <button
-        class="text-base-content cursor-pointer rounded border-b-4 px-1.5 py-1 text-base transition-all hover:bg-base-200 hover:shadow-sm"
+        class="text-base-content hover:bg-base-200 cursor-pointer rounded border-b-4 px-1.5 py-1 text-base transition-all hover:shadow-sm"
         style="border-bottom-color: {posColor(token.pos)}"
         onclick={() => onSelect(index)}
       >

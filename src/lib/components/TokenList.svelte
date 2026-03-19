@@ -16,7 +16,10 @@
   {#each tokens as token, index (index)}
     <div
       id="token-{index}"
-      class="scroll-mt-32 rounded-xl transition-shadow duration-300 {index === selectedIndex ? 'ring-accent ring-2' : ''}"
+      class="scroll-mt-32 rounded-xl transition-shadow duration-300 {index ===
+      selectedIndex
+        ? 'ring-accent ring-2'
+        : ''}"
       transition:fly={{ x: -200, duration: 500 }}
     >
       <TokenCard {token} />

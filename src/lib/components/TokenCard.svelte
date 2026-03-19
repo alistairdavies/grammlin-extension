@@ -8,7 +8,7 @@
 </script>
 
 <div
-  class="card bg-base-100 border border-accent/25 transition-shadow hover:shadow-md"
+  class="card bg-base-100 border-accent/25 border transition-shadow hover:shadow-md"
 >
   <div class="card-body p-4">
     <div class="flex flex-wrap items-center justify-between gap-2">
@@ -20,17 +20,22 @@
     {#if token.tags.length > 0}
       <div class="flex gap-1">
         {#each token.tags as tag, index (index)}
-          <Badge text={morphologyLabel(tag, getGrammarLanguage())} className="badge-neutral badge-outline"/>
+          <Badge
+            text={morphologyLabel(tag, getGrammarLanguage())}
+            className="badge-neutral badge-outline"
+          />
         {/each}
       </div>
     {/if}
 
-    {#if token.definitions.length > 0 }
+    {#if token.definitions.length > 0}
       <div class="divide-base-300 mt-2 divide-y">
         {#each token.definitions as def, index (index)}
           <div class="py-2 first:pt-0 last:pb-0">
             {#if def.definition}
-              <p class="text-base-content text-left text-sm leading-relaxed italic">
+              <p
+                class="text-base-content text-left text-sm leading-relaxed italic"
+              >
                 {def.definition}
               </p>
             {/if}

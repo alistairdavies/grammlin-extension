@@ -58,7 +58,10 @@
   {#if currentView === "settings"}
     <Settings />
   {:else if panelState.type === "tokens"}
-    <TokenisedSentence tokens={panelState.tokens} onSelect={handleTokenSelect} />
+    <TokenisedSentence
+      tokens={panelState.tokens}
+      onSelect={handleTokenSelect}
+    />
     <TokenList tokens={panelState.tokens} selectedIndex={selectedTokenIndex} />
   {:else if panelState.type === "error" && panelState.errorType === "invalid"}
     <Status

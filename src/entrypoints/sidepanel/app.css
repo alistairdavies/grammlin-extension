@@ -7,7 +7,6 @@
   prefersdark: false;
   color-scheme: light;
 
-
   /* Primary - Deep pine green */
   --color-primary: oklch(38% 0.1 160);
   --color-primary-content: oklch(98% 0.01 160);
@@ -51,19 +50,19 @@
 }
 
 :root {
-  --pos-noun-bg: #2d7a4a;       /* forest green */
-  --pos-verb-bg: #c45a20;       /* burnt orange */
-  --pos-adverb-bg: #9a8520;     /* mustard gold */
-  --pos-pronoun-bg: #7a5aad;    /* violet */
-  --pos-adjective-bg: #2a7ab8;  /* ocean blue */
+  --pos-noun-bg: #2d7a4a; /* forest green */
+  --pos-verb-bg: #c45a20; /* burnt orange */
+  --pos-adverb-bg: #9a8520; /* mustard gold */
+  --pos-pronoun-bg: #7a5aad; /* violet */
+  --pos-adjective-bg: #2a7ab8; /* ocean blue */
   --pos-preposition-bg: #b04a78; /* magenta */
   --pos-conjunction-bg: #1a8a7a; /* teal */
   --pos-determiner-bg: #a84040; /* crimson */
   --pos-interjection-bg: #d4882a; /* amber */
-  --pos-numeral-bg: #5a6a60;    /* slate green */
+  --pos-numeral-bg: #5a6a60; /* slate green */
   --pos-auxiliary_verb-bg: #b86030; /* terracotta */
   --pos-punctuation-bg: #6a6a6a; /* grey */
-  --pos-default-bg: #4a5a50;    /* muted forest */
+  --pos-default-bg: #4a5a50; /* muted forest */
 }
 
 html,
@@ -83,4 +82,3 @@ main {
 .container {
   @apply mx-auto w-full max-w-5xl px-4;
 }
-

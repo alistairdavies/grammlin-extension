@@ -8,4 +8,8 @@
   let { pos }: { pos: PartOfSpeech } = $props();
 </script>
 
-<Badge text={posLabel(pos, getGrammarLanguage())} className="text-base-100" style="background-color: {posColor(pos)}" />
+<Badge
+  text={posLabel(pos, getGrammarLanguage())}
+  className="text-base-100"
+  style="background-color: {posColor(pos)}"
+/>
