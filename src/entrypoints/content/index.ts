@@ -1,11 +1,21 @@
 import type { ExtensionEvent } from "@/lib/events";
 
+declare global {
+  interface Window {
+    grammlinInjected?: boolean;
+  }
+}
+
 const MIN_SELECTION_LENGTH = 2;
 const MAX_SELECTION_LENGTH = 500;
 
 export default defineContentScript({
-  matches: ["<all_urls>"],
+  matches: [],
+  registration: "runtime",
   main() {
+    if (window.grammlinInjected) return;
+    window.grammlinInjected = true;
+
     document.addEventListener("mouseup", async () => {
       const text = window.getSelection()?.toString().trim();
 

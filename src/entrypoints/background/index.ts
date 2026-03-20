@@ -5,10 +5,21 @@ import type { ExtensionEvent } from "@/lib/events";
 let sidePanelPort: ReturnType<typeof browser.runtime.connect> | null = null;
 
 export default defineBackground(() => {
-  browser.action.onClicked.addListener((tab) => {
-    if (tab.id) {
-      browser.sidePanel.open({ tabId: tab.id });
-    }
+  browser.sidePanel.setOptions({ enabled: false });
+
+  browser.action.onClicked.addListener(async (tab) => {
+    if (!tab.id) return;
+
+    browser.sidePanel.setOptions({
+      tabId: tab.id,
+      path: "sidepanel.html",
+      enabled: true,
+    });
+    await browser.sidePanel.open({ tabId: tab.id });
+    browser.scripting.executeScript({
+      target: { tabId: tab.id },
+      files: ["/content-scripts/content.js"],
+    });
   });
 
   browser.runtime.onConnect.addListener((port) => {

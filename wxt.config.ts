@@ -9,7 +9,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
   }),
   manifest: {
-    permissions: ["sidePanel"],
+    permissions: ["sidePanel", "activeTab", "scripting"],
     action: {
       default_title: "Grammlin - Swedish Grammar Tool for learners",
     },
