@@ -1,5 +1,7 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  root: ":host";
+}
 
 @plugin "daisyui/theme" {
   name: "nordic-pine";
@@ -49,36 +51,18 @@
   --border: 1px;
 }
 
-:root {
-  --pos-noun-bg: #2d7a4a; /* forest green */
-  --pos-verb-bg: #c45a20; /* burnt orange */
-  --pos-adverb-bg: #9a8520; /* mustard gold */
-  --pos-pronoun-bg: #7a5aad; /* violet */
-  --pos-adjective-bg: #2a7ab8; /* ocean blue */
-  --pos-preposition-bg: #b04a78; /* magenta */
-  --pos-conjunction-bg: #1a8a7a; /* teal */
-  --pos-determiner-bg: #a84040; /* crimson */
-  --pos-interjection-bg: #d4882a; /* amber */
-  --pos-numeral-bg: #5a6a60; /* slate green */
-  --pos-auxiliary_verb-bg: #b86030; /* terracotta */
-  --pos-punctuation-bg: #6a6a6a; /* grey */
-  --pos-default-bg: #4a5a50; /* muted forest */
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
-
-#app {
-  @apply h-full w-full;
-}
-
-main {
-  @apply w-full;
-}
-
-.container {
-  @apply mx-auto w-full max-w-5xl px-4;
+:host {
+  --pos-noun-bg: #2d7a4a;
+  --pos-verb-bg: #c45a20;
+  --pos-adverb-bg: #9a8520;
+  --pos-pronoun-bg: #7a5aad;
+  --pos-adjective-bg: #2a7ab8;
+  --pos-preposition-bg: #b04a78;
+  --pos-conjunction-bg: #1a8a7a;
+  --pos-determiner-bg: #a84040;
+  --pos-interjection-bg: #d4882a;
+  --pos-numeral-bg: #5a6a60;
+  --pos-auxiliary_verb-bg: #b86030;
+  --pos-punctuation-bg: #6a6a6a;
+  --pos-default-bg: #4a5a50;
 }
