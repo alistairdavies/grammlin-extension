@@ -21,6 +21,10 @@ export default defineContentScript({
   cssInjectionMode: "ui",
 
   async main(ctx) {
+    if (document.querySelector("grammlin-popup")) return;
+
+    let enabled = true;
+
     const ui = await createShadowRootUi(ctx, {
       name: "grammlin-popup",
       position: "overlay",
@@ -33,7 +37,16 @@ export default defineContentScript({
     });
     ui.mount();
 
+    browser.runtime.onMessage.addListener((message: ExtensionEvent) => {
+      if (message.action === "disableExtension") {
+        enabled = false;
+        hidePopup();
+      }
+    });
+
     document.addEventListener("mouseup", async (e) => {
+      if (!enabled) return;
+
       if (
         ui.shadowHost.contains(e.target as Node) ||
         ui.shadowHost === e.target
@@ -77,6 +90,7 @@ export default defineContentScript({
     document.addEventListener(
       "scroll",
       () => {
+        if (!enabled) return;
         if (isVisible()) hidePopup();
       },
       true,

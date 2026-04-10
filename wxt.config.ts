@@ -12,6 +12,11 @@ export default defineConfig({
     permissions: ["activeTab", "scripting"],
     action: {
       default_title: "Grammlin - Swedish Grammar Tool for learners",
+      default_icon: {
+        16: "icon-inactive/16.png",
+        32: "icon-inactive/32.png",
+        48: "icon-inactive/48.png",
+      },
     },
     commands: {
       _execute_action: {
