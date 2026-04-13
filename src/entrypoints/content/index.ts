@@ -1,12 +1,6 @@
 import "./style.css";
 import type { ExtensionEvent, AnalyseResponse } from "@/lib/events";
-import {
-  showLoading,
-  hidePopup,
-  setTokens,
-  setError,
-  isVisible,
-} from "./popup-state.svelte";
+import { PopupStore } from "./popup-state.svelte";
 import Popup from "./Popup.svelte";
 import { mount, unmount } from "svelte";
 
@@ -18,7 +12,6 @@ declare global {
 
 const MIN_SELECTION_LENGTH = 2;
 const MAX_SELECTION_LENGTH = 75;
-const VIEWPORT_MARGIN = 8;
 const POPUP_WIDTH = 350;
 
 export default defineContentScript({
@@ -29,13 +22,14 @@ export default defineContentScript({
   async main(ctx) {
     if (window.__grammlinCleanup) window.__grammlinCleanup();
 
+    const popup = new PopupStore();
     const abort = new AbortController();
 
     const ui = await createShadowRootUi(ctx, {
       name: "grammlin-popup",
       position: "overlay",
       onMount: (container) => {
-        return mount(Popup, { target: container });
+        return mount(Popup, { target: container, props: { popup } });
       },
       onRemove: (app) => {
         if (app) unmount(app);
@@ -61,43 +55,37 @@ export default defineContentScript({
     document.addEventListener(
       "mouseup",
       async (e) => {
-        if (
-          ui.shadowHost.contains(e.target as Node) ||
-          ui.shadowHost === e.target
-        ) {
+        if (ui.shadowHost.contains(e.target as Node)) {
           return;
         }
 
-        const selection = window.getSelection();
-        const text = selection?.toString().trim();
+        const selection = getSelectedText();
 
         if (
-          !text ||
-          text.length < MIN_SELECTION_LENGTH ||
-          text.length > MAX_SELECTION_LENGTH
+          !selection ||
+          selection.text.length < MIN_SELECTION_LENGTH ||
+          selection.text.length > MAX_SELECTION_LENGTH
         ) {
-          hidePopup();
+          popup.hide();
           return;
         }
 
-        const range = selection!.getRangeAt(0);
-        const rect = range.getBoundingClientRect();
-        const { top, left } = computePosition(rect);
+        const { left, top } = calculatePopupPosition(selection.rect);
 
-        showLoading(left, top);
+        popup.showLoading(left, top);
 
         const response: AnalyseResponse = await browser.runtime.sendMessage<
           ExtensionEvent,
           AnalyseResponse
         >({
           action: "analyseSentence",
-          text,
+          text: selection.text,
         });
 
         if (response.status === "success") {
-          setTokens(response.tokens);
+          popup.setTokens(response.tokens);
         } else {
-          setError(response.errorType);
+          popup.setError(response.errorType);
         }
       },
       { signal: abort.signal },
@@ -106,26 +94,33 @@ export default defineContentScript({
     document.addEventListener(
       "scroll",
       () => {
-        if (isVisible()) hidePopup();
+        if (popup.isVisible) popup.hide();
       },
       { capture: true, signal: abort.signal },
     );
   },
 });
 
-function computePosition(rect: DOMRect): { top: number; left: number } {
-  const gap = 6;
-  let top = rect.bottom + gap;
-  let left = rect.left + rect.width / 2 - POPUP_WIDTH / 2;
+function getSelectedText(): { text: string; rect: DOMRect } | null {
+  const selection = window.getSelection();
 
+  if (!selection) return null;
+
+  const range = selection.getRangeAt(0);
+  const rect = range.getBoundingClientRect();
+
+  return { text: selection.toString(), rect: rect };
+}
+
+function calculatePopupPosition(rect: DOMRect): { top: number; left: number } {
+  const gap = 6;
+
+  let top = rect.bottom + gap;
   if (top + 200 > window.innerHeight) {
     top = rect.top - gap;
   }
 
-  left = Math.max(
-    VIEWPORT_MARGIN,
-    Math.min(left, window.innerWidth - POPUP_WIDTH - VIEWPORT_MARGIN),
-  );
+  let left = rect.left + rect.width / 2 - POPUP_WIDTH / 2;
 
   return { top, left };
 }

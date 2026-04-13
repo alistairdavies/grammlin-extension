@@ -1,52 +1,39 @@
 import type { Token } from "@/lib/api/types";
 
 export type PopupState =
-  | { type: "loading" }
-  | { type: "tokens"; tokens: Token[] }
-  | { type: "error"; errorType: "invalid" | "unexpected" }
-  | { type: "hidden" };
+  | { state: "loading" }
+  | { state: "tokens"; tokens: Token[] }
+  | { state: "error"; errorType: "invalid" | "unexpected" }
+  | { state: "hidden" };
 
-let popupState = $state<PopupState>({ type: "hidden" });
-let popupTop = $state(0);
-let popupLeft = $state(0);
-let activeTokenIndex = $state(0);
+export class PopupStore {
+  current = $state<PopupState>({ state: "hidden" });
+  top = $state(0);
+  left = $state(0);
+  activeTokenIndex = $state(0);
 
-export function getPopupState(): PopupState {
-  return popupState;
+  get isVisible() {
+    return this.current.state !== "hidden";
+  }
+
+  showLoading(x: number, y: number) {
+    this.left = x;
+    this.top = y;
+    this.current = { state: "loading" };
+  }
+
+  hide() {
+    this.current = { state: "hidden" };
+  }
+
+  setTokens(tokens: Token[]) {
+    this.activeTokenIndex = 0;
+    this.current = { state: "tokens", tokens };
+  }
+
+  setError(errorType: "invalid" | "unexpected") {
+    this.current = { state: "error", errorType };
+  }
 }
 
-export function getPosition(): { top: number; left: number } {
-  return { top: popupTop, left: popupLeft };
-}
 
-export function getActiveTokenIndex(): number {
-  return activeTokenIndex;
-}
-
-export function setActiveTokenIndex(index: number) {
-  activeTokenIndex = index;
-}
-
-export function showLoading(x: number, y: number) {
-  popupLeft = x;
-  popupTop = y;
-  activeTokenIndex = 0;
-  popupState = { type: "loading" };
-}
-
-export function hidePopup() {
-  popupState = { type: "hidden" };
-}
-
-export function setTokens(tokens: Token[]) {
-  activeTokenIndex = 0;
-  popupState = { type: "tokens", tokens };
-}
-
-export function setError(errorType: "invalid" | "unexpected") {
-  popupState = { type: "error", errorType };
-}
-
-export function isVisible(): boolean {
-  return popupState.type !== "hidden";
-}
