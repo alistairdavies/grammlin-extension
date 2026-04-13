@@ -1,11 +1,11 @@
 <script lang="ts">
   let {
-    text,
-    className = "",
-    style = "",
-  }: { text: string; className?: string; style?: string } = $props();
+    height,
+    width,
+  }: { width: number; height: number } = $props();
 </script>
 
-<div class="skeleton"></div>
+<div class="skeleton" style={`width: ${width}px; height: ${height}px`}></div>
+
 
 
