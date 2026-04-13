@@ -10,6 +10,12 @@ import {
 import Popup from "./Popup.svelte";
 import { mount, unmount } from "svelte";
 
+declare global {
+  interface Window {
+    __grammlinCleanup?: () => void;
+  }
+}
+
 const MIN_SELECTION_LENGTH = 2;
 const MAX_SELECTION_LENGTH = 75;
 const VIEWPORT_MARGIN = 8;
@@ -21,9 +27,9 @@ export default defineContentScript({
   cssInjectionMode: "ui",
 
   async main(ctx) {
-    if (document.querySelector("grammlin-popup")) return;
+    if (window.__grammlinCleanup) window.__grammlinCleanup();
 
-    let enabled = true;
+    const abort = new AbortController();
 
     const ui = await createShadowRootUi(ctx, {
       name: "grammlin-popup",
@@ -37,63 +43,72 @@ export default defineContentScript({
     });
     ui.mount();
 
-    browser.runtime.onMessage.addListener((message: ExtensionEvent) => {
+    const teardown = () => {
+      abort.abort();
+      ui.remove();
+      browser.runtime.onMessage.removeListener(onMessage);
+      delete window.__grammlinCleanup;
+    };
+    window.__grammlinCleanup = teardown;
+
+    const onMessage = (message: ExtensionEvent) => {
       if (message.action === "disableExtension") {
-        enabled = false;
-        hidePopup();
+        teardown();
       }
-    });
+    };
+    browser.runtime.onMessage.addListener(onMessage);
 
-    document.addEventListener("mouseup", async (e) => {
-      if (!enabled) return;
+    document.addEventListener(
+      "mouseup",
+      async (e) => {
+        if (
+          ui.shadowHost.contains(e.target as Node) ||
+          ui.shadowHost === e.target
+        ) {
+          return;
+        }
 
-      if (
-        ui.shadowHost.contains(e.target as Node) ||
-        ui.shadowHost === e.target
-      ) {
-        return;
-      }
+        const selection = window.getSelection();
+        const text = selection?.toString().trim();
 
-      const selection = window.getSelection();
-      const text = selection?.toString().trim();
+        if (
+          !text ||
+          text.length < MIN_SELECTION_LENGTH ||
+          text.length > MAX_SELECTION_LENGTH
+        ) {
+          hidePopup();
+          return;
+        }
 
-      if (
-        !text ||
-        text.length < MIN_SELECTION_LENGTH ||
-        text.length > MAX_SELECTION_LENGTH
-      ) {
-        hidePopup();
-        return;
-      }
+        const range = selection!.getRangeAt(0);
+        const rect = range.getBoundingClientRect();
+        const { top, left } = computePosition(rect);
 
-      const range = selection!.getRangeAt(0);
-      const rect = range.getBoundingClientRect();
-      const { top, left } = computePosition(rect);
+        showLoading(left, top);
 
-      showLoading(left, top);
+        const response: AnalyseResponse = await browser.runtime.sendMessage<
+          ExtensionEvent,
+          AnalyseResponse
+        >({
+          action: "analyseSentence",
+          text,
+        });
 
-      const response: AnalyseResponse = await browser.runtime.sendMessage<
-        ExtensionEvent,
-        AnalyseResponse
-      >({
-        action: "analyseSentence",
-        text,
-      });
-
-      if (response.status === "success") {
-        setTokens(response.tokens);
-      } else {
-        setError(response.errorType);
-      }
-    });
+        if (response.status === "success") {
+          setTokens(response.tokens);
+        } else {
+          setError(response.errorType);
+        }
+      },
+      { signal: abort.signal },
+    );
 
     document.addEventListener(
       "scroll",
       () => {
-        if (!enabled) return;
         if (isVisible()) hidePopup();
       },
-      true,
+      { capture: true, signal: abort.signal },
     );
   },
 });

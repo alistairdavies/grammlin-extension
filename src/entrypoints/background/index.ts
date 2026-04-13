@@ -2,39 +2,57 @@ import { parseSentence } from "@/lib/api/service";
 import { UnprocessableResponseError } from "@/lib/api/errors";
 import type { ExtensionEvent, AnalyseResponse } from "@/lib/events";
 import { setIconActive, setIconInactive } from "@/lib/icon";
+import { createLogger } from "@/lib/logging";
 import {
   newPermissionsTracker,
   parseTabContext,
   type TabContext,
 } from "@/lib/permission";
 
+const logger = createLogger("background");
 const tracker = newPermissionsTracker();
 
 export default defineBackground(() => {
+  // This action event fires when the user interacts with the extension icon
+  // or they trigger the extension through a keyboard shortcut for `_execute_action`
   browser.action.onClicked.addListener(async (tab) => {
     const context = parseTabContext(tab);
     if (!context) return;
 
-    if (!tracker.hasTab(context.tabId)) {
-      enableExtension(context);
+    if (tracker.hasTab(context.tabId)) {
+      logger.debug("user_toggle_off", { tabId: context.tabId });
+      await disableExtension(context.tabId);
     } else {
-      disableExtension(context.tabId);
+      logger.debug("user_toggle_on", {
+        tabId: context.tabId,
+        origin: context.origin,
+      });
+      await enableExtension(context);
     }
   });
 
-  browser.tabs.onUpdated.addListener(async (_, changeInfo, tab) => {
+  // Sync the extension state when the tab context changes
+  // For example after a navigation
+  browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     if (changeInfo.status !== "complete") return;
+    if (!tracker.hasTab(tabId)) return;
 
     const context = parseTabContext(tab);
-    if (!context || !tracker.hasTab(context.tabId)) return;
+    if (!context) return;
 
     if (tracker.exists(context)) {
-      enableExtension(context);
+      logger.debug("same_origin_navigation", { tabId, origin: context.origin });
+      await enableExtension(context);
     } else {
-      disableExtension(context.tabId);
+      logger.debug("cross_origin_navigation", {
+        tabId,
+        origin: context.origin,
+      });
+      await disableExtension(tabId);
     }
   });
 
+  // Sync the extension icon when the user switches between active tabs
   browser.tabs.onActivated.addListener(async ({ tabId }) => {
     if (tracker.hasTab(tabId)) {
       await setIconActive(tabId);
@@ -57,34 +75,32 @@ export default defineBackground(() => {
   );
 });
 
-function injectContentScript(tabId: number) {
-  return browser.scripting.executeScript({
-    target: { tabId },
-    files: ["/content-scripts/content.js"],
-  });
-}
-
 async function enableExtension(context: TabContext) {
   try {
-    await injectContentScript(context.tabId);
+    await browser.scripting.executeScript({
+      target: { tabId: context.tabId },
+      files: ["/content-scripts/content.js"],
+    });
   } catch (error) {
-    console.debug("Unable to inject extension content script.", error);
-    disableExtension(context.tabId);
+    await disableExtension(context.tabId);
     return;
   }
 
-  await setIconActive(context.tabId);
   tracker.add(context);
+  await setIconActive(context.tabId);
+  logger.debug("extension_enabled", {
+    tabId: context.tabId,
+    origin: context.origin,
+  });
 }
 
 async function disableExtension(tabId: number) {
   tracker.removeTab(tabId);
-  await setIconInactive(tabId);
-  browser.tabs
+  await browser.tabs
     .sendMessage(tabId, { action: "disableExtension" })
-    .catch((error) => {
-      console.debug("Unable to send disable extension event.", error);
-    });
+    .catch(() => {});
+  await setIconInactive(tabId);
+  logger.debug("extension_disabled", { tabId });
 }
 
 async function handleAnalyse(text: string): Promise<AnalyseResponse> {
