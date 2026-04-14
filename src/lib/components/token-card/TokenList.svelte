@@ -1,9 +1,11 @@
 <script lang="ts">
   import { type Token } from "@/lib/api/types";
+  import type { Settings } from "@/lib/settings";
   import { posColor } from "@/lib/components/pos-colours";
   import TokenCard from "./TokenCard.svelte";
 
-  let { tokens }: { tokens: Token[] } = $props();
+  let { tokens, settings }: { tokens: Token[]; settings: Settings } =
+    $props();
 
   let activeIndex = $state(0);
 </script>
@@ -22,5 +24,5 @@
   </div>
 {/if}
 <div class="p-3">
-  <TokenCard token={tokens[activeIndex]} />
+  <TokenCard token={tokens[activeIndex]} {settings} />
 </div>

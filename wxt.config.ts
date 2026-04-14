@@ -5,11 +5,12 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   srcDir: "src",
   modules: ["@wxt-dev/module-svelte"],
+  svelte: { vite: { compilerOptions: { experimental: { async: true } } } },
   vite: () => ({
     plugins: [tailwindcss()],
   }),
   manifest: {
-    permissions: ["activeTab", "scripting"],
+    permissions: ["activeTab", "scripting", "storage"],
     action: {
       default_title: "Grammlin - Swedish Grammar Tool for learners",
       default_icon: {

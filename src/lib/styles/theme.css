@@ -1,0 +1,47 @@
+@plugin "daisyui/theme" {
+  name: "nordic-pine";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  /* Primary - Deep pine green */
+  --color-primary: oklch(38% 0.1 160);
+  --color-primary-content: oklch(98% 0.01 160);
+
+  /* Secondary - Softer green */
+  --color-secondary: oklch(45% 0.05 155);
+  --color-secondary-content: oklch(98% 0.01 155);
+
+  /* Accent - Teal */
+  --color-accent: oklch(40% 0.08 190);
+  --color-accent-content: oklch(98% 0.01 190);
+
+  /* Neutral - Green-tinted grey */
+  --color-neutral: oklch(25% 0.03 155);
+  --color-neutral-content: oklch(92% 0.02 155);
+
+  /* Info - Blue */
+  --color-info: oklch(45% 0.1 250);
+  --color-info-content: oklch(98% 0.01 250);
+
+  /* Success - Deeper green */
+  --color-success: oklch(45% 0.15 145);
+  --color-success-content: oklch(98% 0.01 145);
+
+  /* Warning - Warm amber */
+  --color-warning: oklch(75% 0.15 85);
+  --color-warning-content: oklch(25% 0.05 85);
+
+  /* Error - Warm red */
+  --color-error: oklch(50% 0.2 25);
+  --color-error-content: oklch(98% 0.01 25);
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  --border: 1px;
+}

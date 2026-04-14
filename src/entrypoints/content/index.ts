@@ -1,6 +1,7 @@
 import "./style.css";
 import type { ExtensionEvent, AnalyseResponse } from "@/lib/events";
 import { PopupStore } from "./popup-state.svelte";
+import { loadSettings } from "@/lib/settings";
 import Popup from "./Popup.svelte";
 import { mount, unmount } from "svelte";
 
@@ -23,13 +24,17 @@ export default defineContentScript({
     if (window.__grammlinCleanup) window.__grammlinCleanup();
 
     const popup = new PopupStore();
+    const settings = await loadSettings();
     const abort = new AbortController();
 
     const ui = await createShadowRootUi(ctx, {
       name: "grammlin-popup",
       position: "overlay",
       onMount: (container) => {
-        return mount(Popup, { target: container, props: { popup } });
+        return mount(Popup, {
+          target: container,
+          props: { popup, settings },
+        });
       },
       onRemove: (app) => {
         if (app) unmount(app);
@@ -126,7 +131,7 @@ function calculatePopupPosition(rect: DOMRect): { top: number; left: number } {
     top = rect.top - gap;
   }
 
-  let left = rect.left + rect.width / 2 - POPUP_WIDTH / 2;
+  const left = rect.left + rect.width / 2 - POPUP_WIDTH / 2;
 
   return { top, left };
 }

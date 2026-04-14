@@ -81,7 +81,7 @@ async function enableExtension(context: TabContext) {
       target: { tabId: context.tabId },
       files: ["/content-scripts/content.js"],
     });
-  } catch (error) {
+  } catch {
     await disableExtension(context.tabId);
     return;
   }

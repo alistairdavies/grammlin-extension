@@ -1,13 +1,16 @@
 <script lang="ts">
   import { type Token } from "@/lib/api/types";
+  import type { Settings } from "@/lib/settings";
   import Badge from "@/lib/components/common/Badge.svelte";
   import TokenCardSkeleton from "./TokenCardSkeleton.svelte";
   import POSBadge from "@/lib/components/POSBadge.svelte";
   import { morphologyLabel } from "@/lib/i18n/morphology-labels";
-  import { getGrammarLanguage } from "@/lib/settings.svelte";
 
-  let { token, loading = false }: { token?: Token; loading?: boolean } =
-    $props();
+  let {
+    token,
+    loading = false,
+    settings,
+  }: { token?: Token; loading?: boolean; settings: Settings } = $props();
 </script>
 
 <div
@@ -20,14 +23,14 @@
       <div class="flex flex-wrap items-center justify-between gap-2">
         <h3 class="card-title mb-0 text-lg">{token.text}</h3>
         {#if token.pos}
-          <POSBadge pos={token.pos} />
+          <POSBadge pos={token.pos} {settings} />
         {/if}
       </div>
       {#if token.tags.length > 0}
         <div class="flex gap-1">
           {#each token.tags as tag, index (index)}
             <Badge
-              text={morphologyLabel(tag, getGrammarLanguage())}
+              text={morphologyLabel(tag, settings.getGrammarLanguage())}
               className="badge-neutral badge-outline"
             />
           {/each}

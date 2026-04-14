@@ -4,8 +4,10 @@
   import { MessageCircleQuestionMark, TriangleAlert } from "@lucide/svelte";
   import StatusHeader from "@/lib/components/common/StatusHeader.svelte";
   import { type PopupStore } from "./popup-state.svelte";
+  import type { Settings } from "@/lib/settings";
 
-  let { popup }: { popup: PopupStore } = $props();
+  let { popup, settings }: { popup: PopupStore; settings: Settings } =
+    $props();
 </script>
 
 {#if popup.current.state !== "hidden"}
@@ -15,11 +17,11 @@
   >
     {#if popup.current.state === "loading"}
       <div in:fade={{ duration: 100 }}>
-        <TokenCard loading />
+        <TokenCard loading {settings} />
       </div>
     {:else if popup.current.state === "tokens"}
       <div in:fade={{ duration: 100 }}>
-        <TokenList tokens={popup.current.tokens} />
+        <TokenList tokens={popup.current.tokens} {settings} />
       </div>
     {:else if popup.current.state === "error" && popup.current.errorType === "invalid"}
       <div class="px-4 py-6 text-center" in:fade={{ duration: 100 }}>

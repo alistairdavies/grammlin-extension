@@ -1,5 +1,5 @@
 import type { PartOfSpeech } from "@/lib/api/types";
-import type { GrammarLanguage } from "@/lib/i18n/types";
+import type { GrammarLanguage } from "@/lib/settings";
 
 const posLabels: Record<PartOfSpeech, Record<GrammarLanguage, string>> = {
   noun: { en: "Noun", sv: "Substantiv" },
