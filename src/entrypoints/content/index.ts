@@ -54,40 +54,7 @@ export default defineContentScript({
 
     document.addEventListener(
       "mouseup",
-      async (e) => {
-        if (ui.shadowHost.contains(e.target as Node)) {
-          return;
-        }
-
-        const selection = getSelectedText();
-
-        if (
-          !selection ||
-          selection.text.length < MIN_SELECTION_LENGTH ||
-          selection.text.length > MAX_SELECTION_LENGTH
-        ) {
-          popup.hide();
-          return;
-        }
-
-        const { left, top } = calculatePopupPosition(selection.rect);
-
-        popup.showLoading(left, top);
-
-        const response: AnalyseResponse = await browser.runtime.sendMessage<
-          ExtensionEvent,
-          AnalyseResponse
-        >({
-          action: "analyseSentence",
-          text: selection.text,
-        });
-
-        if (response.status === "success") {
-          popup.setTokens(response.tokens);
-        } else {
-          popup.setError(response.errorType);
-        }
-      },
+      (e) => handleSelection(e, ui.shadowHost, popup),
       { signal: abort.signal },
     );
 
@@ -100,6 +67,45 @@ export default defineContentScript({
     );
   },
 });
+
+async function handleSelection(
+  e: MouseEvent,
+  extensionUI: HTMLElement,
+  popup: PopupStore,
+): Promise<void> {
+  if (extensionUI.contains(e.target as Node)) {
+    return;
+  }
+
+  const selection = getSelectedText();
+
+  if (
+    !selection ||
+    selection.text.length < MIN_SELECTION_LENGTH ||
+    selection.text.length > MAX_SELECTION_LENGTH
+  ) {
+    popup.hide();
+    return;
+  }
+
+  const { left, top } = calculatePopupPosition(selection.rect);
+
+  popup.showLoading(left, top);
+
+  const response: AnalyseResponse = await browser.runtime.sendMessage<
+    ExtensionEvent,
+    AnalyseResponse
+  >({
+    action: "analyseSentence",
+    text: selection.text,
+  });
+
+  if (response.status === "success") {
+    popup.setTokens(response.tokens);
+  } else {
+    popup.setError(response.errorType);
+  }
+}
 
 function getSelectedText(): { text: string; rect: DOMRect } | null {
   const selection = window.getSelection();

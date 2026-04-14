@@ -10,8 +10,6 @@ export class PopupStore {
   current = $state<PopupState>({ state: "hidden" });
   top = $state(0);
   left = $state(0);
-  activeTokenIndex = $state(0);
-
   get isVisible() {
     return this.current.state !== "hidden";
   }
@@ -27,7 +25,6 @@ export class PopupStore {
   }
 
   setTokens(tokens: Token[]) {
-    this.activeTokenIndex = 0;
     this.current = { state: "tokens", tokens };
   }
 

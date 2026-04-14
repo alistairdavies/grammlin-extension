@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
-  import { TokenCard } from "@/lib/components/token-card";
+  import { TokenCard, TokenList } from "@/lib/components/token-card";
   import { MessageCircleQuestionMark, TriangleAlert } from "@lucide/svelte";
   import StatusHeader from "@/lib/components/common/StatusHeader.svelte";
   import { type PopupStore } from "./popup-state.svelte";
@@ -19,21 +19,7 @@
       </div>
     {:else if popup.current.state === "tokens"}
       <div in:fade={{ duration: 100 }}>
-        {#if popup.current.tokens.length > 1}
-          <div class="flex flex-wrap gap-1 border-b border-base-300 px-3 pt-3 pb-2">
-            {#each popup.current.tokens as token, i (i)}
-              <button
-                class="badge badge-sm cursor-pointer {i === popup.activeTokenIndex
-                  ? 'badge-primary'
-                  : 'badge-ghost'}"
-                onclick={() => popup.activeTokenIndex = i}
-              >
-                {token.text}
-              </button>
-            {/each}
-          </div>
-        {/if}
-        <TokenCard token={popup.current.tokens[popup.activeTokenIndex]} />
+        <TokenList tokens={popup.current.tokens} />
       </div>
     {:else if popup.current.state === "error" && popup.current.errorType === "invalid"}
       <div class="px-4 py-6 text-center" in:fade={{ duration: 100 }}>
