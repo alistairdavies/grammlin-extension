@@ -1,8 +1,11 @@
-import { parseSentence } from "@/lib/api/service";
+import { createService } from "@/lib/api/service";
+
 import { UnprocessableResponseError } from "@/lib/api/errors";
 import type { ExtensionEvent } from "@/lib/events";
 
 let sidePanelPort: ReturnType<typeof browser.runtime.connect> | null = null;
+
+const apiService = createService(import.meta.env.VITE_GRAMMAR_API_BASE_URL);
 
 export default defineBackground(() => {
   browser.sidePanel.setOptions({ enabled: false });
@@ -43,7 +46,8 @@ async function handleBackgroundEvent(message: ExtensionEvent) {
   if (message.action === "analyseSentence") {
     if (!sidePanelPort) return;
 
-    await parseSentence(message.text)
+    await apiService
+      .parseSentence(message.text)
       .then((tokens) => {
         browser.runtime.sendMessage<ExtensionEvent>({
           action: "displayAnalysedSentence",

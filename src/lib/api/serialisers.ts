@@ -9,7 +9,7 @@ export function serialiseTokens(
   return tokens.map(serialiseToken);
 }
 
-function serialiseToken(token: TokenResponse): Token {
+export function serialiseToken(token: TokenResponse): Token {
   const tags =
     "morphology" in token ? serialiseMorphology(token.morphology) : [];
 
@@ -22,7 +22,7 @@ function serialiseToken(token: TokenResponse): Token {
   };
 }
 
-function serialiseMorphology(
+export function serialiseMorphology(
   morphology: Record<string, unknown>,
 ): MorphologyTag[] {
   return Object.values(morphology).filter(
@@ -30,7 +30,7 @@ function serialiseMorphology(
   );
 }
 
-function serialiseDefinitions(
+export function serialiseDefinitions(
   definitions?: components["schemas"]["Definition"][],
 ): Definition[] {
   return (
