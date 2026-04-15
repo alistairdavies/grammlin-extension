@@ -12,9 +12,10 @@
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "test": "vitest",
+    "test": "vitest run",
     "lint": "eslint .",
-    "format": "prettier --write .",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
     "postinstall": "wxt prepare"
   },
   "devDependencies": {
