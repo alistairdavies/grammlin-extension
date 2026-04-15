@@ -1,68 +1,119 @@
 import { createService } from "@/lib/api/service";
 
 import { UnprocessableResponseError } from "@/lib/api/errors";
-import type { ExtensionEvent } from "@/lib/events";
+import type { ExtensionEvent, AnalyseResponse } from "@/lib/events";
+import { setIconActive, setIconInactive } from "@/lib/icon";
+import { createLogger } from "@/lib/logging";
+import {
+  newPermissionsTracker,
+  parseTabContext,
+  type TabContext,
+} from "@/lib/permissions";
 
-let sidePanelPort: ReturnType<typeof browser.runtime.connect> | null = null;
-
+const logger = createLogger("background");
+const tracker = newPermissionsTracker();
 const apiService = createService(import.meta.env.VITE_GRAMMAR_API_BASE_URL);
 
 export default defineBackground(() => {
-  browser.sidePanel.setOptions({ enabled: false });
-
+  // This action event fires when the user interacts with the extension icon
+  // or they trigger the extension through a keyboard shortcut for `_execute_action`
   browser.action.onClicked.addListener(async (tab) => {
-    if (!tab.id) return;
+    const context = parseTabContext(tab);
+    if (!context) return;
 
-    browser.sidePanel.setOptions({
-      tabId: tab.id,
-      path: "sidepanel.html",
-      enabled: true,
-    });
-    await browser.sidePanel.open({ tabId: tab.id });
-    browser.scripting.executeScript({
-      target: { tabId: tab.id },
-      files: ["/content-scripts/content.js"],
-    });
+    if (tracker.hasTab(context.tabId)) {
+      logger.debug("user_toggle_off", { tabId: context.tabId });
+      await disableExtension(context.tabId);
+    } else {
+      logger.debug("user_toggle_on", {
+        tabId: context.tabId,
+        origin: context.origin,
+      });
+      await enableExtension(context);
+    }
   });
 
-  browser.runtime.onConnect.addListener((port) => {
-    if (port.name === "sidepanel") {
-      sidePanelPort = port;
-      port.onDisconnect.addListener(() => {
-        sidePanelPort = null;
+  // Sync the extension state when the tab context changes
+  // For example after a navigation
+  browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+    if (changeInfo.status !== "complete") return;
+    if (!tracker.hasTab(tabId)) return;
+
+    const context = parseTabContext(tab);
+    if (!context) return;
+
+    if (tracker.exists(context)) {
+      logger.debug("same_origin_navigation", { tabId, origin: context.origin });
+      await enableExtension(context);
+    } else {
+      logger.debug("cross_origin_navigation", {
+        tabId,
+        origin: context.origin,
       });
+      await disableExtension(tabId);
     }
+  });
+
+  // Sync the extension icon when the user switches between active tabs
+  browser.tabs.onActivated.addListener(async ({ tabId }) => {
+    if (tracker.hasTab(tabId)) {
+      await setIconActive(tabId);
+    } else {
+      await setIconInactive(tabId);
+    }
+  });
+
+  browser.tabs.onRemoved.addListener((tabId) => {
+    tracker.removeTab(tabId);
   });
 
   browser.runtime.onMessage.addListener(
     (message: ExtensionEvent, _sender, sendResponse) => {
-      handleBackgroundEvent(message);
-      sendResponse();
+      if (message.action === "analyseSentence") {
+        handleAnalyse(message.text).then(sendResponse);
+        return true;
+      }
     },
   );
 });
 
-async function handleBackgroundEvent(message: ExtensionEvent) {
-  if (message.action === "analyseSentence") {
-    if (!sidePanelPort) return;
+async function enableExtension(context: TabContext) {
+  try {
+    await browser.scripting.executeScript({
+      target: { tabId: context.tabId },
+      files: ["/content-scripts/content.js"],
+    });
+  } catch {
+    await disableExtension(context.tabId);
+    return;
+  }
 
-    await apiService
-      .parseSentence(message.text)
-      .then((tokens) => {
-        browser.runtime.sendMessage<ExtensionEvent>({
-          action: "displayAnalysedSentence",
-          text: message.text,
-          tokens: tokens,
-        });
-      })
-      .catch((error) => {
-        browser.runtime.sendMessage<ExtensionEvent>({
-          action: "displayAnalyseError",
-          errorType:
-            error instanceof UnprocessableResponseError
-              ? "invalid"
-              : "unexpected",
-        });
-      });
+  tracker.add(context);
+  await setIconActive(context.tabId);
+  logger.debug("extension_enabled", {
+    tabId: context.tabId,
+    origin: context.origin,
+  });
+}
+
+async function disableExtension(tabId: number) {
+  tracker.removeTab(tabId);
+  await browser.tabs
+    .sendMessage(tabId, { action: "disableExtension" })
+    .catch(() => {});
+  await setIconInactive(tabId);
+  logger.debug("extension_disabled", { tabId });
+}
+
+async function handleAnalyse(text: string): Promise<AnalyseResponse> {
+  try {
+    const tokens = await apiService.parseSentence(text);
+    return { status: "success", tokens: tokens };
+  } catch (error) {
+    return {
+      status: "error",
+      errorType:
+        error instanceof UnprocessableResponseError ? "invalid" : "unexpected",
+    };
   }
 }

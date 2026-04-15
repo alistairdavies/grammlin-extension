@@ -1,0 +1,21 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  root: ":host";
+}
+@import "@/lib/components/styles/theme.css";
+
+:host {
+  --pos-noun-bg: #2d7a4a;
+  --pos-verb-bg: #c45a20;
+  --pos-adverb-bg: #9a8520;
+  --pos-pronoun-bg: #7a5aad;
+  --pos-adjective-bg: #2a7ab8;
+  --pos-preposition-bg: #b04a78;
+  --pos-conjunction-bg: #1a8a7a;
+  --pos-determiner-bg: #a84040;
+  --pos-interjection-bg: #d4882a;
+  --pos-numeral-bg: #5a6a60;
+  --pos-auxiliary_verb-bg: #b86030;
+  --pos-punctuation-bg: #6a6a6a;
+  --pos-default-bg: #4a5a50;
+}

@@ -1,5 +1,5 @@
 import type { PartOfSpeech } from "@/lib/api/types";
-import type { GrammarLanguage } from "@/lib/i18n/types";
+import type { GrammarLanguage } from "@/lib/settings";
 
 const posLabels: Record<PartOfSpeech, Record<GrammarLanguage, string>> = {
   noun: { en: "Noun", sv: "Substantiv" },
@@ -15,9 +15,6 @@ const posLabels: Record<PartOfSpeech, Record<GrammarLanguage, string>> = {
   auxiliary_verb: { en: "Auxiliary verb", sv: "Hjälpverb" },
 };
 
-export function posLabel(
-  pos: PartOfSpeech,
-  lang: GrammarLanguage = "en",
-): string {
+export function posLabel(pos: PartOfSpeech, lang: GrammarLanguage): string {
   return posLabels[pos][lang];
 }

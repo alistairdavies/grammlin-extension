@@ -1,18 +1,11 @@
 <script lang="ts">
-  import About from "@/lib/components/About.svelte";
-  import {
-    getGrammarLanguage,
-    setGrammarLanguage,
-  } from "@/lib/settings.svelte";
+  import type { Settings } from "@/lib/settings";
 
-  function toggleLanguage() {
-    setGrammarLanguage(getGrammarLanguage() === "en" ? "sv" : "en");
-  }
+  let { settings }: { settings: Settings } = $props();
 </script>
 
-<div class="flex flex-col">
-  <div class="px-6 py-4">
-    <h3 class="mb-4 text-base font-semibold">Settings</h3>
+  <div class="px-6">
+    <h3 class="mb-2 text-base font-semibold">Settings</h3>
 
     <div class="space-y-4">
       <div class="flex items-center justify-between">
@@ -26,13 +19,10 @@
           <input
             type="checkbox"
             class="toggle toggle-sm toggle-primary"
-            checked={getGrammarLanguage() === "en"}
-            onchange={toggleLanguage}
+            checked={settings.getGrammarLanguage() === "en"}
+            onchange={settings.toggleGrammarLanguage}
           />
         </div>
       </div>
     </div>
   </div>
-
-  <About />
-</div>

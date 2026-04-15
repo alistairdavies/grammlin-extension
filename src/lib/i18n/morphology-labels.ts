@@ -1,5 +1,5 @@
 import type { MorphologyTag } from "@/lib/api/types";
-import type { GrammarLanguage } from "@/lib/i18n/types";
+import type { GrammarLanguage } from "@/lib/settings";
 
 const morphologyLabels: Record<
   MorphologyTag,
@@ -26,7 +26,7 @@ const morphologyLabels: Record<
 
 export function morphologyLabel(
   value: MorphologyTag,
-  lang: GrammarLanguage = "en",
+  lang: GrammarLanguage,
 ): string {
   return morphologyLabels[value][lang];
 }

@@ -55,7 +55,7 @@ describe("serialiseToken", () => {
   });
 
   it("returns empty tags for a token with no morphology information", () => {
-    const input = { ...exampleToken, morphology: null };
+    const input = { ...exampleToken };
 
     const result = serialiseToken(input);
 
