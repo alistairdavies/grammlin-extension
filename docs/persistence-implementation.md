@@ -18,6 +18,7 @@ The content script is injected via `browser.scripting.executeScript` in exactly 
    - Same-origin back/forward (bfcache or fresh load)
 
 The content script is **never** injected in these situations:
+
 - New tab on the same domain (each tab is independent)
 - SPA navigations (`pushState`/`replaceState` don't fire `status: "complete"`)
 - Cross-origin navigation (origin doesn't match, extension is disabled)
@@ -27,10 +28,10 @@ The content script is **never** injected in these situations:
 
 ## Activation & Deactivation
 
-| Trigger | Behaviour |
-|---------|-----------|
-| Icon click / `Ctrl+Shift+G` on **inactive** tab | Content script injected, tab added to tracker (tabId → origin), icon set to active |
-| Icon click / `Ctrl+Shift+G` on **active** tab | `disableExtension` message sent to content script (full teardown), tab removed from tracker, icon set to inactive |
+| Trigger                                         | Behaviour                                                                                                         |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Icon click / `Ctrl+Shift+G` on **inactive** tab | Content script injected, tab added to tracker (tabId → origin), icon set to active                                |
+| Icon click / `Ctrl+Shift+G` on **active** tab   | `disableExtension` message sent to content script (full teardown), tab removed from tracker, icon set to inactive |
 
 Both the icon click and keyboard shortcut fire the same `action.onClicked` handler. The `_execute_action` command in the manifest binds the shortcut to the action button.
 
@@ -68,10 +69,10 @@ If bfcache restores the original page, the content script may still be alive and
 
 ## Tab Lifecycle
 
-| Trigger | Behaviour |
-|---------|-----------|
-| Switch to a different tab | Icon set to active/inactive based on tracker |
-| Tab closed | Tab removed from tracker |
+| Trigger                                | Behaviour                                                                                                                                                                                                             |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Switch to a different tab              | Icon set to active/inactive based on tracker                                                                                                                                                                          |
+| Tab closed                             | Tab removed from tracker                                                                                                                                                                                              |
 | Service worker restarts (idle timeout) | Tracker is lost (in-memory only). Icon reverts to manifest default (inactive). Content scripts in existing tabs may still be alive but the background no longer knows about them. User clicks the icon to re-activate |
 
 ---
@@ -82,10 +83,10 @@ If bfcache restores the original page, the content script may still be alive and
 permissions: ["activeTab", "scripting"],
 ```
 
-| Permission | Reason |
-|---|---|
+| Permission  | Reason                                                                                      |
+| ----------- | ------------------------------------------------------------------------------------------- |
 | `activeTab` | Temporary host permission on user gesture, persists for same-origin navigations in that tab |
-| `scripting` | `executeScript` to inject the content script |
+| `scripting` | `executeScript` to inject the content script                                                |
 
 `activeTab` grants temporary host access on icon click or keyboard shortcut. This access persists across same-origin navigations within that tab ([Chrome docs](https://developer.chrome.com/docs/extensions/develop/concepts/activeTab)). Cross-origin navigation revokes it, which is exactly when we disable the extension.
 
@@ -100,6 +101,7 @@ No `storage`, `tabs`, or `host_permissions` needed. `tabs.sendMessage`, `tabs.on
 Registers four browser event listeners and exposes two core functions:
 
 **Listeners:**
+
 - `action.onClicked` — toggles extension on/off for the current tab
 - `tabs.onUpdated` — re-injects on same-origin page load, disables on cross-origin
 - `tabs.onActivated` — updates icon when switching tabs
@@ -107,6 +109,7 @@ Registers four browser event listeners and exposes two core functions:
 - `runtime.onMessage` — handles `analyseSentence` from content script
 
 **Functions:**
+
 - `enableExtension(context)` — injects content script, adds to tracker, sets icon active. On injection failure, falls through to `disableExtension`.
 - `disableExtension(tabId)` — removes from tracker, sends `disableExtension` message to content script, sets icon inactive.
 

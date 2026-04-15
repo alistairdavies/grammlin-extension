@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, test, vitest } from "vitest";
+import { afterEach, beforeEach, expect, test, vitest } from "vitest";
 import { createLogger } from "./logging";
 
 beforeEach(() => {

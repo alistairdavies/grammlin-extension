@@ -5,7 +5,6 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   srcDir: "src",
   modules: ["@wxt-dev/module-svelte"],
-  svelte: { vite: { compilerOptions: { experimental: { async: true } } } },
   vite: () => ({
     plugins: [tailwindcss()],
   }),

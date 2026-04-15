@@ -6,13 +6,12 @@
   import { type PopupStore } from "./popup-state.svelte";
   import type { Settings } from "@/lib/settings";
 
-  let { popup, settings }: { popup: PopupStore; settings: Settings } =
-    $props();
+  let { popup, settings }: { popup: PopupStore; settings: Settings } = $props();
 </script>
 
 {#if popup.current.state !== "hidden"}
   <div
-    class="fixed w-[350px] rounded-box border border-base-300 bg-base-100 shadow-xl"
+    class="rounded-box border-base-300 bg-base-100 fixed w-[350px] border shadow-xl"
     style="top: {popup.top}px; left: {popup.left}px;"
   >
     {#if popup.current.state === "loading"}
@@ -25,14 +24,21 @@
       </div>
     {:else if popup.current.state === "error" && popup.current.errorType === "invalid"}
       <div class="px-4 py-6 text-center" in:fade={{ duration: 100 }}>
-        <StatusHeader icon={MessageCircleQuestionMark} title="Unable to analyse" />
+        <StatusHeader
+          icon={MessageCircleQuestionMark}
+          title="Unable to analyse"
+        />
         <p class="text-base-content/50 mt-1 text-xs">
           No information available for this text.
         </p>
       </div>
     {:else if popup.current.state === "error" && popup.current.errorType === "unexpected"}
       <div class="px-4 py-6 text-center" in:fade={{ duration: 100 }}>
-        <StatusHeader icon={TriangleAlert} title="Something went wrong" variant="error" />
+        <StatusHeader
+          icon={TriangleAlert}
+          title="Something went wrong"
+          variant="error"
+        />
         <p class="text-base-content/50 mt-1 text-xs">
           Unable to analyse the text.
         </p>

@@ -1,13 +1,16 @@
 <script lang="ts">
   import Settings from "@/lib/components/Settings.svelte";
   import About from "@/lib/components/About.svelte";
-  import { loadSettings} from "@/lib/settings";
+  import { loadSettings } from "@/lib/settings";
 
-
-  const settings = await loadSettings()
+  const settingsPromise = loadSettings();
 </script>
 
-<div class="mx-auto max-w-md flex flex-col">
-  <Settings {settings} />
-  <About />
-</div>
+{#await settingsPromise}
+  <div></div>
+{:then settings}
+  <div class="mx-auto flex max-w-md flex-col">
+    <Settings {settings} />
+    <About />
+  </div>
+{/await}

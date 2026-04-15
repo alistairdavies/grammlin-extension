@@ -32,5 +32,3 @@ export class PopupStore {
     this.current = { state: "error", errorType };
   }
 }
-
-
