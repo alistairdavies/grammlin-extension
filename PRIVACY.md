@@ -1,10 +1,10 @@
 # Privacy Policy — Grammlin Web Extension
 
-**Last updated:** 22 March 2026
+**Last updated:** 15 April 2026
 
 ## What Grammlin does
 
-Grammlin is a browser extension that helps Swedish language learners by analysing highlighted text on web pages. When you select text, it is sent to a server for grammatical analysis, and the results are displayed in a browser side panel.
+Grammlin is a browser extension that helps Swedish language learners by analysing highlighted text on web pages. When you select text, it is sent to a server for grammatical analysis, and the results are displayed in a browser popup alongside the content.
 
 ## Data collected
 
@@ -24,7 +24,7 @@ The only data used is the **text you highlight** on a web page when the extensio
 
 - **Active Tab**: Grants temporary access to the current tab only when you click the extension icon. The extension does not have access to any other tabs or pages.
 - **Scripting**: Used to inject a content script into the active tab to detect text you highlight. The extension only reads text you actively select — it does not read or access any other page content.
-- **Side Panel**: Used to display analysis results.
+- **Storage**: Used to store user preferences for the extension that have been changed in the options menu. These settings are only stored on the users local machine in browser storage.
 
 ## Changes to this policy
 
@@ -32,4 +32,4 @@ Any changes to this privacy policy will be reflected in this document with an up
 
 ## Contact
 
-If you have questions about this privacy policy, please open an issue on the [Grammlin GitHub repository](https://github.com/alistairdavies/grammling-extension).
+If you have questions about this privacy policy, please open an issue on the [Grammlin GitHub repository](https://github.com/alistairdavies/grammlin-extension).
