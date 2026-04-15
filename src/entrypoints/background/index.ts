@@ -1,4 +1,5 @@
-import { parseSentence } from "@/lib/api/service";
+import { createService } from "@/lib/api/service";
+
 import { UnprocessableResponseError } from "@/lib/api/errors";
 import type { ExtensionEvent, AnalyseResponse } from "@/lib/events";
 import { setIconActive, setIconInactive } from "@/lib/icon";
@@ -11,6 +12,7 @@ import {
 
 const logger = createLogger("background");
 const tracker = newPermissionsTracker();
+const apiService = createService(import.meta.env.VITE_GRAMMAR_API_BASE_URL);
 
 export default defineBackground(() => {
   // This action event fires when the user interacts with the extension icon
@@ -105,8 +107,8 @@ async function disableExtension(tabId: number) {
 
 async function handleAnalyse(text: string): Promise<AnalyseResponse> {
   try {
-    const tokens = await parseSentence(text);
-    return { status: "success", tokens };
+    const tokens = await apiService.parseSentence(text);
+    return { status: "success", tokens: tokens };
   } catch (error) {
     return {
       status: "error",
