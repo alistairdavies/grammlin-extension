@@ -26,7 +26,7 @@ const morphologyLabels: Record<
 
 export function morphologyLabel(
   value: MorphologyTag,
-  lang: GrammarLanguage = "en",
+  lang: GrammarLanguage,
 ): string {
   return morphologyLabels[value][lang];
 }

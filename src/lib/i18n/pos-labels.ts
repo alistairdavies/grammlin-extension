@@ -15,9 +15,6 @@ const posLabels: Record<PartOfSpeech, Record<GrammarLanguage, string>> = {
   auxiliary_verb: { en: "Auxiliary verb", sv: "Hjälpverb" },
 };
 
-export function posLabel(
-  pos: PartOfSpeech,
-  lang: GrammarLanguage = "en",
-): string {
+export function posLabel(pos: PartOfSpeech, lang: GrammarLanguage): string {
   return posLabels[pos][lang];
 }

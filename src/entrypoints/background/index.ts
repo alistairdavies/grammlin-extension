@@ -7,7 +7,7 @@ import {
   newPermissionsTracker,
   parseTabContext,
   type TabContext,
-} from "@/lib/permission";
+} from "@/lib/permissions";
 
 const logger = createLogger("background");
 const tracker = newPermissionsTracker();
