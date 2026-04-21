@@ -131,7 +131,14 @@ function calculatePopupPosition(rect: DOMRect): { top: number; left: number } {
     top = rect.top - gap;
   }
 
-  const left = rect.left + rect.width / 2 - POPUP_WIDTH / 2;
+  let left = rect.left + rect.width / 2 - POPUP_WIDTH / 2;
+  if (left < gap) {
+    left = gap;
+  }
+
+  if (left + POPUP_WIDTH > window.innerWidth - gap) {
+    left = window.innerWidth - POPUP_WIDTH - gap;
+  }
 
   return { top, left };
 }
