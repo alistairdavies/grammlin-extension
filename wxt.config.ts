@@ -1,11 +1,14 @@
 import { defineConfig } from "wxt";
 import tailwindcss from "@tailwindcss/vite";
+// @ts-expect-error
+import remToPx from "@thedutchcoder/postcss-rem-to-px";
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
   srcDir: "src",
   modules: ["@wxt-dev/module-svelte"],
   vite: () => ({
+    css: { postcss: { plugins: [remToPx()] } },
     plugins: [tailwindcss()],
   }),
   manifest: {

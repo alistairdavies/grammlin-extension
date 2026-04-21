@@ -11,7 +11,7 @@
 
 {#if popup.current.state !== "hidden"}
   <div
-    class="rounded-box border-base-300 bg-base-100 fixed w-[350px] border shadow-xl z-9999"
+    class="rounded-box border-base-300 bg-base-100 fixed z-9999 w-[350px] border shadow-xl"
     style="top: {popup.top}px; left: {popup.left}px;"
   >
     {#if popup.current.state === "loading"}

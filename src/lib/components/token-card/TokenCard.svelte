@@ -13,9 +13,7 @@
   }: { token?: Token; loading?: boolean; settings: Settings } = $props();
 </script>
 
-<div
-  class="card bg-base-100 border-accent/25 border transition-shadow"
->
+<div class="card bg-base-100 border-accent/25 border transition-shadow">
   <div class="card-body p-4">
     {#if loading}
       <TokenCardSkeleton />
