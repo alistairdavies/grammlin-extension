@@ -59,7 +59,7 @@ export default defineContentScript({
 
     document.addEventListener(
       "mouseup",
-      (e) => handleSelection(e, ui.shadowHost, popup),
+      (e) => setTimeout(() => handleSelection(e, ui.shadowHost, popup), 10),
       { signal: abort.signal },
     );
 
@@ -115,7 +115,7 @@ async function handleSelection(
 function getSelectedText(): { text: string; rect: DOMRect } | null {
   const selection = window.getSelection();
 
-  if (!selection) return null;
+  if (!selection || selection.isCollapsed) return null;
 
   const range = selection.getRangeAt(0);
   const rect = range.getBoundingClientRect();
