@@ -22,12 +22,7 @@ export default defineConfig({
       },
     },
     commands: {
-      _execute_action: {
-        suggested_key: {
-          default: "Ctrl+Shift+G",
-          mac: "Command+Shift+G",
-        },
-      },
+      _execute_action: {},
     },
     web_accessible_resources: [
       {
