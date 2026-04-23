@@ -1,5 +1,5 @@
 import type { PartOfSpeech } from "@/lib/api/types";
-import type { GrammarLanguage } from "@/lib/settings";
+import type { GrammarLanguage } from "@/lib/state/settings.svelte";
 
 const posLabels: Record<PartOfSpeech, Record<GrammarLanguage, string>> = {
   noun: { en: "Noun", sv: "Substantiv" },

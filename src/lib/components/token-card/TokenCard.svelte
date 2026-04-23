@@ -1,6 +1,6 @@
 <script lang="ts">
   import { type Token } from "@/lib/api/types";
-  import type { Settings } from "@/lib/settings";
+  import type { Settings } from "@/lib/state/settings.svelte";
   import Badge from "@/lib/components/common/Badge.svelte";
   import TokenCardSkeleton from "./TokenCardSkeleton.svelte";
   import POSBadge from "@/lib/components/POSBadge.svelte";
@@ -28,7 +28,7 @@
         <div class="flex gap-1">
           {#each token.tags as tag, index (index)}
             <Badge
-              text={morphologyLabel(tag, settings.getGrammarLanguage())}
+              text={morphologyLabel(tag, settings.grammarLanguage)}
               className="badge-neutral badge-outline"
             />
           {/each}

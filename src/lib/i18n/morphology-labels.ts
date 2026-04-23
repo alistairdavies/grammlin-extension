@@ -1,5 +1,5 @@
 import type { MorphologyTag } from "@/lib/api/types";
-import type { GrammarLanguage } from "@/lib/settings";
+import type { GrammarLanguage } from "@/lib/state/settings.svelte";
 
 const morphologyLabels: Record<
   MorphologyTag,

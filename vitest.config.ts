@@ -1,3 +1,4 @@
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { defineConfig } from "vitest/config";
 import { WxtVitest } from "wxt/testing";
 
@@ -6,5 +7,5 @@ export default defineConfig({
     // Use browser entry points in package.json files during tests
     conditions: process.env.VITEST ? ["browser"] : undefined,
   },
-  plugins: [WxtVitest()],
+  plugins: [WxtVitest(), svelte()],
 });

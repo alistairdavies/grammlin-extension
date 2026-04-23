@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Settings } from "@/lib/settings";
+  import type { Settings } from "@/lib/state/settings.svelte";
 
   let { settings }: { settings: Settings } = $props();
 </script>
@@ -19,7 +19,7 @@
         <input
           type="checkbox"
           class="toggle toggle-sm toggle-primary"
-          checked={settings.getGrammarLanguage() === "en"}
+          checked={settings.grammarLanguage === "en"}
           onchange={settings.toggleGrammarLanguage}
         />
       </div>

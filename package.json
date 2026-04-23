@@ -2,7 +2,7 @@
   "name": "Grammlin",
   "description": "Grammlin is a tool for Swedish language learners providing grammatical information and word definitions.",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.1",
   "type": "module",
   "scripts": {
     "dev": "wxt",
@@ -20,7 +20,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
-    "@tailwindcss/vite": "^4.1.17",
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
+    "@tailwindcss/vite": "4.2.2",
     "@thedutchcoder/postcss-rem-to-px": "^0.0.2",
     "@tsconfig/svelte": "^5.0.5",
     "@wxt-dev/module-svelte": "^2.0.3",
@@ -35,11 +36,11 @@
     "prettier-plugin-tailwindcss": "^0.7.2",
     "svelte": "^5.38.6",
     "svelte-check": "^4.3.1",
-    "tailwindcss": "^4.1.17",
+    "tailwindcss": "4.2.2",
     "tslib": "^2.8.1",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.53.0",
-    "vitest": "^4.0.17",
+    "vitest": "^4.1.5",
     "wxt": "^0.20.6"
   },
   "dependencies": {

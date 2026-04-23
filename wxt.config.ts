@@ -1,6 +1,6 @@
 import { defineConfig } from "wxt";
 import tailwindcss from "@tailwindcss/vite";
-// @ts-expect-error
+// @ts-expect-error library types not available so ignore implicit any
 import remToPx from "@thedutchcoder/postcss-rem-to-px";
 
 // See https://wxt.dev/api/config.html

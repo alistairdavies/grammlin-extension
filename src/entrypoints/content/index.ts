@@ -1,8 +1,8 @@
 import "./style.css";
 import type { ExtensionEvent, AnalyseResponse } from "@/lib/events";
 import { PopupStore } from "./popup-state.svelte";
-import { loadSettings } from "@/lib/settings";
-import Popup from "./Popup.svelte";
+import { loadSettings } from "@/lib/state/settings.svelte";
+import App from "./App.svelte";
 import { mount, unmount } from "svelte";
 
 declare global {
@@ -31,7 +31,7 @@ export default defineContentScript({
       name: "grammlin-popup",
       position: "overlay",
       onMount: (container) => {
-        return mount(Popup, {
+        return mount(App, {
           target: container,
           props: { popup, settings },
         });

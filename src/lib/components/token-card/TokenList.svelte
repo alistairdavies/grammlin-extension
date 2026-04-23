@@ -1,6 +1,6 @@
 <script lang="ts">
   import { type Token } from "@/lib/api/types";
-  import type { Settings } from "@/lib/settings";
+  import type { Settings } from "@/lib/state/settings.svelte";
   import { posColor } from "@/lib/components/pos-colours";
   import TokenCard from "./TokenCard.svelte";
 
