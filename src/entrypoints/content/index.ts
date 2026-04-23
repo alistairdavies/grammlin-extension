@@ -27,13 +27,19 @@ export default defineContentScript({
     const settings = await loadSettings();
     const abort = new AbortController();
 
+    const openOptions = async () => {
+      await browser.runtime.sendMessage<ExtensionEvent>({
+        action: "openOptions",
+      });
+    };
+
     const ui = await createShadowRootUi(ctx, {
       name: "grammlin-popup",
       position: "overlay",
       onMount: (container) => {
         return mount(App, {
           target: container,
-          props: { popup, settings },
+          props: { popup, settings, openOptions },
         });
       },
       onRemove: (app) => {

@@ -3,10 +3,13 @@
   import type { Settings } from "@/lib/state/settings.svelte";
   import About from "@/lib/components/About.svelte";
 
-  const { settings }: { settings: Settings } = $props();
+  const {
+    settings,
+    executeShortcut,
+  }: { settings: Settings; executeShortcut?: string } = $props();
 </script>
 
 <div class="mx-auto flex max-w-md flex-col">
-  <SettingsPanel {settings} />
+  <SettingsPanel {settings} {executeShortcut} />
   <About />
 </div>

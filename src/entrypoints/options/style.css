@@ -3,6 +3,6 @@
 @import "@/lib/components/styles/theme.css";
 
 body {
-  min-width: 300px;
+  min-width: 450px;
   min-height: 100%;
 }

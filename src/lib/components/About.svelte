@@ -1,9 +1,20 @@
 <script lang="ts">
+  import { Bug } from "@lucide/svelte";
 </script>
 
 <div class="border-base-300 mt-36 border-t px-6 py-4">
-  <h3 class="mb-2 text-base font-semibold">Data Sources</h3>
+  <div class="mb-4 flex justify-between">
+    <h3 class="text-base font-semibold">About</h3>
+    <a
+      class="link link-primary"
+      rel="noopener noreferrer"
+      target="_blank"
+      href="https://github.com/alistairdavies/grammlin-extension/issues"
+      ><Bug size={14} class="inline" /> Report an issue</a
+    >
+  </div>
 
+  <h4 class="text-sm">Data Sources</h4>
   <div class="space-y-2">
     <div class="bg-base-200 rounded p-3">
       <h4 class="mb-1 text-xs font-semibold">

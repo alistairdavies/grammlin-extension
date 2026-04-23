@@ -73,6 +73,11 @@ export default defineBackground(() => {
         handleAnalyse(message.text).then(sendResponse);
         return true;
       }
+
+      if (message.action === "openOptions") {
+        browser.runtime.openOptionsPage();
+        return true;
+      }
     },
   );
 });

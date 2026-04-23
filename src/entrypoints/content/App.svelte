@@ -4,12 +4,17 @@
   import Popup from "@/lib/components/Popup.svelte";
   import WelcomeToast from "@/lib/components/WelcomeToast.svelte";
 
-  let { popup, settings }: { popup: PopupStore; settings: Settings } = $props();
+  let {
+    popup,
+    settings,
+    openOptions,
+  }: { popup: PopupStore; settings: Settings; openOptions: () => void } =
+    $props();
 </script>
 
 {#if popup.current.state !== "hidden"}
   <Popup popupState={popup.current} {settings} />
 {/if}
 {#if !settings.welcomeMessageSeen}
-  <WelcomeToast onDismiss={settings.setWelcomeMessageSeen} />
+  <WelcomeToast onDismiss={settings.setWelcomeMessageSeen} {openOptions} />
 {/if}

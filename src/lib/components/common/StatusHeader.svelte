@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Component } from "svelte";
-  import type { IconProps } from "@lucide/svelte";
+  import { type IconProps } from "@lucide/svelte";
 
   let {
     icon: Icon,
@@ -12,23 +12,22 @@
     variant?: "default" | "error";
   } = $props();
 
-  const variantStyles = {
-    default: {
-      bgClass: "bg-base-200",
-      iconClass: "",
-    },
-    error: {
-      bgClass: "bg-error/10",
-      iconClass: "text-error",
-    },
-  };
-
-  const styles = variantStyles[variant];
+  // svelte-ignore state_referenced_locally
+  const style =
+    variant === "default"
+      ? {
+          bgClass: "bg-base-200",
+          iconClass: "",
+        }
+      : {
+          bgClass: "bg-error/10",
+          iconClass: "text-error",
+        };
 </script>
 
 <div
-  class="mx-auto mb-2 h-12 w-12 rounded-full {styles.bgClass} flex items-center justify-center"
+  class="mx-auto mb-2 h-12 w-12 rounded-full {style.bgClass} flex items-center justify-center"
 >
-  <Icon size={24} class={styles.iconClass} />
+  <Icon size={24} class={style.iconClass} />
 </div>
 <p class="text-base-content text-sm font-medium">{title}</p>
