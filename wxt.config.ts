@@ -24,6 +24,12 @@ export default defineConfig({
     commands: {
       _execute_action: {},
     },
+    browser_specific_settings: {
+      gecko: {
+        id: "grammlin@alidav",
+        data_collection_permissions: { required: ["websiteContent"] },
+      },
+    },
     web_accessible_resources: [
       {
         resources: ["content-scripts/content.css"],
