@@ -22,13 +22,11 @@ npm run dev
 ## Build
 
 To build the extension zip, for chrome:
-
 ```bash
 npm run zip
 ```
 
 or for firefox:
-
 ```bash
 npm run zip:firefox
 ```
