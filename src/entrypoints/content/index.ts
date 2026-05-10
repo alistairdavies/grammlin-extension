@@ -85,6 +85,7 @@ async function handleSelection(
   popup: PopupStore,
 ): Promise<void> {
   if (extensionUI.contains(e.target as Node)) {
+    e.stopPropagation();
     return;
   }
 

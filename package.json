@@ -2,7 +2,7 @@
   "name": "Grammlin",
   "description": "Grammlin is a tool for Swedish language learners providing grammatical information and word definitions.",
   "private": true,
-  "version": "1.1.1",
+  "version": "1.1.2",
   "type": "module",
   "scripts": {
     "dev": "wxt",
