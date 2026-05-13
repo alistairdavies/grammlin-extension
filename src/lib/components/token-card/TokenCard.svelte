@@ -36,17 +36,24 @@
       {/if}
 
       {#if token.definitions.length > 0}
-        <div class="divide-base-300 mt-2 divide-y">
+        <div class="divide-base-300 mt-2 divide-y flex gap-3 flex-col">
           {#each token.definitions as def, index (index)}
-            <div class="py-2 first:pt-0 last:pb-0">
+            <div class="py-1 first:pt-0 last:pb-0">
               {#if def.definition}
                 <p
-                  class="text-base-content text-left text-sm leading-relaxed italic"
+                  class="text-base-content text-left text-sm leading-relaxed"
                 >
                   {def.definition}
                 </p>
               {/if}
-              <p class="text-base-content/60 text-left text-sm leading-relaxed">
+              {#if def.distinction}
+                <p
+                  class="text-base-content text-left text-xs leading-relaxed"
+                >
+                  {def.distinction}
+                </p>
+              {/if}
+              <p class="text-base-content/60 text-left text-sm leading-relaxed italic mt-1">
                 {def.translations.join(", ")}
               </p>
             </div>

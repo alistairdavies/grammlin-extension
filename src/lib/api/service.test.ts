@@ -22,7 +22,11 @@ describe("parseSentence", () => {
           lemma: "jag",
           part_of_speech: "pronoun",
           definitions: [
-            { translations: ["I"], definition: "first person singular" },
+            {
+              translations: ["I"],
+              definition: "first person singular",
+              distinction: "nice distinction",
+            },
           ],
           morphology: { form: "subject" },
         },
@@ -43,7 +47,11 @@ describe("parseSentence", () => {
         lemma: "jag",
         pos: "pronoun",
         definitions: [
-          { translations: ["I"], definition: "first person singular" },
+          {
+            translations: ["I"],
+            definition: "first person singular",
+            distinction: "nice distinction",
+          },
         ],
         tags: ["subject"],
       },

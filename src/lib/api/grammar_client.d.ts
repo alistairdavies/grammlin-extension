@@ -107,15 +107,14 @@ export interface components {
              */
             definitions?: components["schemas"]["Definition"][];
         };
-        /**
-         * Definition
-         * @description Public API representation of a definition.
-         */
+        /** Definition */
         Definition: {
             /** Translations */
             translations: string[];
             /** Definition */
-            definition?: string | null;
+            definition: string | null;
+            /** Distinction */
+            distinction: string | null;
         };
         /** HTTPValidationError */
         HTTPValidationError: {
@@ -200,6 +199,10 @@ export interface components {
             msg: string;
             /** Error Type */
             type: string;
+            /** Input */
+            input?: unknown;
+            /** Context */
+            ctx?: Record<string, never>;
         };
         /** VerbMorphology */
         VerbMorphology: {

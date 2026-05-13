@@ -131,35 +131,51 @@ describe("serialiseDefinitions", () => {
 
   it("maps translations and definition text", () => {
     const input = [
-      { translations: ["dog", "hound"], definition: "a domestic animal" },
+      {
+        translations: ["dog", "hound"],
+        definition: "a domestic animal",
+        distinction: null,
+      },
     ];
 
     const result = serialiseDefinitions(input);
 
     expect(result).toEqual([
-      { translations: ["dog", "hound"], definition: "a domestic animal" },
+      {
+        translations: ["dog", "hound"],
+        definition: "a domestic animal",
+        distinction: null,
+      },
     ]);
-  });
-
-  it("normalises undefined definition text to null", () => {
-    const input = [{ translations: ["dog"] }];
-
-    const result = serialiseDefinitions(input);
-
-    expect(result[0].definition).toBeNull();
   });
 
   it("handles multiple definitions", () => {
     const input = [
-      { translations: ["dish"], definition: "a food course" },
-      { translations: ["right", "correct"], definition: null },
+      {
+        translations: ["dish"],
+        definition: "a food course",
+        distinction: "a distinction",
+      },
+      {
+        translations: ["right", "correct"],
+        definition: null,
+        distinction: null,
+      },
     ];
 
     const result = serialiseDefinitions(input);
 
     expect(result).toEqual([
-      { translations: ["dish"], definition: "a food course" },
-      { translations: ["right", "correct"], definition: null },
+      {
+        translations: ["dish"],
+        definition: "a food course",
+        distinction: "a distinction",
+      },
+      {
+        translations: ["right", "correct"],
+        definition: null,
+        distinction: null,
+      },
     ]);
   });
 });

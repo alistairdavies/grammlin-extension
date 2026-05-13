@@ -21,6 +21,7 @@ export type MorphologyTag =
 export type Definition = {
   translations: string[];
   definition: string | null;
+  distinction: string | null;
 };
 
 export type Token = {

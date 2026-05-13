@@ -36,7 +36,8 @@ export function serialiseDefinitions(
   return (
     definitions?.map((def) => ({
       translations: def.translations,
-      definition: def.definition ?? null,
+      definition: def.definition,
+      distinction: def.distinction,
     })) ?? []
   );
 }
