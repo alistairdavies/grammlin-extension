@@ -13,7 +13,7 @@
 <div transition:fade class="toast toast-top toast-end z-9999">
   <div
     role="alert"
-    class="alert border-primary flex flex-col gap-2 border text-left"
+    class="alert border-primary bg-base-100 flex flex-col gap-2 border text-left"
   >
     <div class="flex flex-row items-center gap-1">
       <img src={icon} alt="Grammlin Icon" />

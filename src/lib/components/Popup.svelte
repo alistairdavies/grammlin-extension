@@ -21,7 +21,7 @@
 </script>
 
 <div
-  class="rounded-box border-base-300 bg-base-100 fixed z-9999 w-87.5 overflow-y-auto border shadow-xl"
+  class="rounded-box border-primary bg-base-100 fixed z-9999 w-87.5 overflow-y-auto border shadow-xl"
   style={positionStyle}
 >
   {#if popupState.state === "loading"}

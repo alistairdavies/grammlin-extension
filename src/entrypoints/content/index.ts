@@ -143,6 +143,10 @@ function calculatePopupPosition(rect: DOMRect): PopupPosition {
   if (spaceBelow >= spaceAbove) {
     return { direction: "below", top: rect.bottom + gap, left };
   } else {
-    return { direction: "above", bottom: window.innerHeight - rect.top + gap, left };
+    return {
+      direction: "above",
+      bottom: window.innerHeight - rect.top + gap,
+      left,
+    };
   }
 }

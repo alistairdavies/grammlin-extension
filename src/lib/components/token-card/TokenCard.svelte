@@ -13,7 +13,7 @@
   }: { token?: Token; loading?: boolean; settings: Settings } = $props();
 </script>
 
-<div class="card bg-base-100 border-accent/25 border transition-shadow">
+<div class="card bg-base-100 transition-shadow">
   <div class="card-body p-4">
     {#if loading}
       <TokenCardSkeleton />
@@ -36,26 +36,34 @@
       {/if}
 
       {#if token.definitions.length > 0}
-        <div class="divide-base-300 mt-2 divide-y flex gap-3 flex-col">
+        <div class="divide-base-200 mt-1 flex flex-col divide-y">
           {#each token.definitions as def, index (index)}
-            <div class="py-1 first:pt-0 last:pb-0">
-              {#if def.definition}
-                <p
-                  class="text-base-content text-left text-sm leading-relaxed"
+            <div class="flex gap-2.5 py-2.5 first:pt-1 last:pb-0">
+              {#if token.definitions.length > 1}
+                <span
+                  class="text-base-content/35 w-4 shrink-0 pt-0.5 text-xs font-semibold tabular-nums"
+                  >{index + 1}.</span
                 >
-                  {def.definition}
-                </p>
               {/if}
-              {#if def.distinction}
-                <p
-                  class="text-base-content text-left text-xs leading-relaxed"
-                >
-                  {def.distinction}
-                </p>
-              {/if}
-              <p class="text-base-content/60 text-left text-sm leading-relaxed italic mt-1">
-                {def.translations.join(", ")}
-              </p>
+              <div class="flex min-w-0 flex-1 flex-col gap-1.5">
+                {#if def.definition}
+                  <p class="text-base-content text-sm leading-snug">
+                    {def.definition}
+                  </p>
+                {/if}
+                {#if def.distinction}
+                  <p
+                    class="text-base-content/55 border-base-300 border-l-2 pl-2 text-xs leading-snug italic"
+                  >
+                    {def.distinction}
+                  </p>
+                {/if}
+                {#if def.translations.length > 0}
+                  <p class="text-base-content/60 text-sm leading-snug italic">
+                    {def.translations.join(", ")}
+                  </p>
+                {/if}
+              </div>
             </div>
           {/each}
         </div>
