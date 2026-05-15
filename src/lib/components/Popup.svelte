@@ -6,15 +6,23 @@
   import type { Settings } from "@/lib/state/settings.svelte";
   import { type VisiblePopupState } from "@/entrypoints/content/popup-state.svelte";
 
+  const GAP = 8;
+
   let {
     popupState,
     settings,
   }: { popupState: VisiblePopupState; settings: Settings } = $props();
+
+  let positionStyle = $derived(
+    popupState.position.direction === "below"
+      ? `top: ${popupState.position.top}px; left: ${popupState.position.left}px; max-height: calc(100vh - ${popupState.position.top}px - ${GAP}px);`
+      : `bottom: ${popupState.position.bottom}px; left: ${popupState.position.left}px; max-height: calc(100vh - ${popupState.position.bottom}px - ${GAP}px);`,
+  );
 </script>
 
 <div
-  class="rounded-box border-base-300 bg-base-100 fixed z-9999 w-87.5 border shadow-xl"
-  style="top: {popupState.position.top}px; left: {popupState.position.left}px;"
+  class="rounded-box border-base-300 bg-base-100 fixed z-9999 w-87.5 overflow-y-auto border shadow-xl"
+  style={positionStyle}
 >
   {#if popupState.state === "loading"}
     <div in:fade={{ duration: 100 }}>

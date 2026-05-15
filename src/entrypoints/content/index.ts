@@ -1,6 +1,6 @@
 import "./style.css";
 import type { ExtensionEvent, AnalyseResponse } from "@/lib/events";
-import { PopupStore } from "./popup-state.svelte";
+import { PopupStore, type PopupPosition } from "./popup-state.svelte";
 import { loadSettings } from "@/lib/state/settings.svelte";
 import App from "./App.svelte";
 import { mount, unmount } from "svelte";
@@ -100,9 +100,7 @@ async function handleSelection(
     return;
   }
 
-  const { left, top } = calculatePopupPosition(selection.rect);
-
-  popup.showLoading(left, top);
+  popup.showLoading(calculatePopupPosition(selection.rect));
 
   const response: AnalyseResponse = await browser.runtime.sendMessage<
     ExtensionEvent,
@@ -130,22 +128,21 @@ function getSelectedText(): { text: string; rect: DOMRect } | null {
   return { text: selection.toString(), rect: rect };
 }
 
-function calculatePopupPosition(rect: DOMRect): { top: number; left: number } {
+function calculatePopupPosition(rect: DOMRect): PopupPosition {
   const gap = 6;
 
-  let top = rect.bottom + gap;
-  if (top + 200 > window.innerHeight) {
-    top = rect.top - 200 - gap;
-  }
-
   let left = rect.left + rect.width / 2 - POPUP_WIDTH / 2;
-  if (left < gap) {
-    left = gap;
-  }
-
+  if (left < gap) left = gap;
   if (left + POPUP_WIDTH > window.innerWidth - gap) {
     left = window.innerWidth - POPUP_WIDTH - gap;
   }
 
-  return { top, left };
+  const spaceBelow = window.innerHeight - rect.bottom - gap;
+  const spaceAbove = rect.top - gap;
+
+  if (spaceBelow >= spaceAbove) {
+    return { direction: "below", top: rect.bottom + gap, left };
+  } else {
+    return { direction: "above", bottom: window.innerHeight - rect.top + gap, left };
+  }
 }
