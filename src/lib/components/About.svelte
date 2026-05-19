@@ -51,12 +51,12 @@
     <div class="bg-base-200 rounded p-3">
       <h4 class="mb-1 text-xs font-semibold">
         <a
-          href="https://spacy.io/models/sv"
+          href="https://huggingface.co/stanfordnlp/stanza-sv"
           target="_blank"
           rel="noopener noreferrer"
           class="link link-primary"
         >
-          spaCy Swedish NLP Model
+          Stanza Swedish NLP Model
         </a>
       </h4>
       <dl class="text-base-content/60 space-y-1 text-xs">
@@ -64,12 +64,12 @@
           <dt class="inline">Author:</dt>
           <dd class="ml-1 inline">
             <a
-              href="https://explosion.ai/"
+              href="https://nlp.stanford.edu/"
               target="_blank"
               rel="noopener noreferrer"
               class="link link-primary"
             >
-              Explosion
+              Stanford NLP Group
             </a>
           </dd>
         </div>
@@ -77,12 +77,12 @@
           <dt class="inline">License:</dt>
           <dd class="ml-1 inline">
             <a
-              href="https://creativecommons.org/licenses/by-sa/4.0/"
+              href="https://www.apache.org/licenses/LICENSE-2.0"
               target="_blank"
               rel="noopener noreferrer"
               class="link link-primary"
             >
-              CC BY-SA 4.0
+              Apache 2.0
             </a>
           </dd>
         </div>
