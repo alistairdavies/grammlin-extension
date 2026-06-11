@@ -88,6 +88,54 @@ describe("serialiseToken", () => {
 
     expect(result.definitions).toEqual([]);
   });
+
+  it("sets compound_parts from the definition when there is exactly one", () => {
+    const input = {
+      ...exampleToken,
+      definitions: [
+        {
+          translations: [],
+          definition: null,
+          distinction: null,
+          compound_parts: ["sol", "sken"],
+        },
+      ],
+    };
+
+    const result = serialiseToken(input);
+
+    expect(result.compound_parts).toEqual(["sol", "sken"]);
+  });
+
+  it("sets compound_parts to null when there are multiple definitions", () => {
+    const input = {
+      ...exampleToken,
+      definitions: [
+        {
+          translations: [],
+          definition: "sunshine",
+          distinction: null,
+          compound_parts: ["sol", "sken"],
+        },
+        {
+          translations: [],
+          definition: "sunlight",
+          distinction: null,
+          compound_parts: null,
+        },
+      ],
+    };
+
+    const result = serialiseToken(input);
+
+    expect(result.compound_parts).toBeNull();
+  });
+
+  it("sets compound_parts to null when there are no definitions", () => {
+    const result = serialiseToken(exampleToken);
+
+    expect(result.compound_parts).toBeNull();
+  });
 });
 
 describe("serialiseMorphology", () => {

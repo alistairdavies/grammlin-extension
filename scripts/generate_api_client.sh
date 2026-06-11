@@ -3,7 +3,7 @@
 set -e
 
 echo "Fetching OpenAPI schema..."
-curl -s http://localhost:8001/openapi.json -o openapi.json
+curl -s https://grammlin-api.fly.dev/openapi.json -o openapi.json
 
 echo "Generating TypeScript API client..."
 npx openapi-typescript openapi.json -o ./src/lib/api/grammar_client.d.ts

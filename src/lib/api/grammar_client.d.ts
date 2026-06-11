@@ -115,6 +115,8 @@ export interface components {
             definition: string | null;
             /** Distinction */
             distinction: string | null;
+            /** Compound Parts */
+            compound_parts?: string[] | null;
         };
         /** HTTPValidationError */
         HTTPValidationError: {

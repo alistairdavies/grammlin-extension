@@ -12,13 +12,18 @@ export function serialiseTokens(
 export function serialiseToken(token: TokenResponse): Token {
   const tags =
     "morphology" in token ? serialiseMorphology(token.morphology) : [];
+  const definitions = serialiseDefinitions(token.definitions);
 
   return {
     text: token.text,
     lemma: token.lemma,
     pos: token.part_of_speech,
-    definitions: serialiseDefinitions(token.definitions),
+    definitions,
     tags,
+    compound_parts:
+      definitions.length === 1
+        ? (token.definitions?.[0].compound_parts ?? null)
+        : null,
   };
 }
 

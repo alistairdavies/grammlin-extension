@@ -54,6 +54,7 @@ describe("parseSentence", () => {
           },
         ],
         tags: ["subject"],
+        compound_parts: null,
       },
     ]);
   });

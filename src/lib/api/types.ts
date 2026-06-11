@@ -30,4 +30,5 @@ export type Token = {
   pos: PartOfSpeech | null;
   definitions: Definition[];
   tags: MorphologyTag[];
+  compound_parts: string[] | null;
 };

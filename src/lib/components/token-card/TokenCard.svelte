@@ -19,7 +19,14 @@
       <TokenCardSkeleton />
     {:else if token}
       <div class="flex flex-wrap items-center justify-between gap-2">
-        <h3 class="card-title mb-0 text-lg">{token.text}</h3>
+        <div>
+          <h3 class="card-title mb-0 text-lg">{token.text}</h3>
+          {#if token.compound_parts}
+            <p class="text-base-content text-sm italic">
+              {token.compound_parts.join(" | ")}
+            </p>
+          {/if}
+        </div>
         {#if token.pos}
           <POSBadge pos={token.pos} {settings} />
         {/if}
