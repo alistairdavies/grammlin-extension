@@ -1,19 +1,24 @@
-import { mount } from "svelte";
-import App from "./App.svelte";
-import "./style.css";
-import { loadSettings } from "@/lib/state/settings.svelte";
+import { mount } from 'svelte'
+import App from './App.svelte'
+import './style.css'
+import { loadSettings } from '@/lib/state/settings.svelte'
 
-const shortcuts = await browser.commands.getAll();
+const shortcuts = await browser.commands.getAll()
 const executeActionShortcut = shortcuts.find((shortcut) => {
-  return shortcut.name === "_execute_action";
-});
+  return shortcut.name === '_execute_action'
+})
 
-const settings = await loadSettings();
+const settings = await loadSettings()
+
+const mountTarget = document.getElementById('app')
+if (!mountTarget) {
+  throw new Error('Unable to find element to mount options panel')
+}
 
 mount(App, {
-  target: document.getElementById("app")!,
+  target: mountTarget,
   props: {
     settings,
     executeShortcut: executeActionShortcut?.shortcut,
   },
-});
+})

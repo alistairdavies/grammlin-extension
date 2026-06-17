@@ -1,13 +1,13 @@
 <script lang="ts">
-  import { fade } from "svelte/transition";
-  import icon from "/public/icon/32.png";
-  import TextHighlight from "./TextHighlight.svelte";
-  import { Settings } from "@lucide/svelte";
+  import { Settings } from '@lucide/svelte'
+  import { fade } from 'svelte/transition'
+  import icon from '/public/icon/32.png'
+  import TextHighlight from './TextHighlight.svelte'
 
   let {
     onDismiss,
     openOptions,
-  }: { onDismiss: () => void; openOptions: () => void } = $props();
+  }: { onDismiss: () => void; openOptions: () => void } = $props()
 </script>
 
 <div transition:fade class="toast toast-top toast-end z-9999">
@@ -22,10 +22,10 @@
     <p>Highlight some text to analyse it</p>
     <TextHighlight />
     <div class="mt-4 mb-2 flex w-full flex-row justify-end gap-2">
-      <button class="btn btn-outline btn-sm" onclick={openOptions}
-        ><Settings size={16} />Options</button
-      >
-      <button class="btn btn-primary btn-sm" onclick={onDismiss}>Got it</button>
+      <button type="button" class="btn btn-outline btn-sm" onclick={openOptions}>
+        <Settings size={16} />Options
+      </button>
+      <button type="button" class="btn btn-primary btn-sm" onclick={onDismiss}>Got it</button>
     </div>
   </div>
 </div>

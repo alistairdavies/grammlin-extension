@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { MousePointer } from "@lucide/svelte";
+  import { MousePointer } from '@lucide/svelte'
 </script>
 
 <div
@@ -9,8 +9,8 @@
   <div class="bg-base-100 space-y-1 px-6 py-4 text-left">
     <p class="text-base-content text-sm leading-relaxed">
       Hej!
-      <mark class="bg-primary/30 rounded px-1">Jag lär mig svenska.</mark
-      ><MousePointer
+      <mark class="bg-primary/30 rounded px-1">Jag lär mig svenska.</mark>
+      <MousePointer
         size={16}
         class="ml-1 inline-block translate-y-px"
         fill="currentColor"

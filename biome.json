@@ -1,0 +1,70 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.0/schema.json",
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "css": { "parser": { "tailwindDirectives": true } },
+  "formatter": {
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 80,
+    "includes": [
+      "**",
+      "!**/.output",
+      "!**/.wxt",
+      "!**/node_modules",
+      "!src/lib/api/grammar_client.d.ts"
+    ]
+  },
+  "linter": {
+    "rules": {
+      "preset": "recommended",
+      "style": {
+        "noCommonJs": "error",
+        "noNamespace": "error",
+        "useArrayLiterals": "error",
+        "useAsConstAssertion": "error"
+      },
+      "suspicious": {
+        "noUnusedExpressions": "off"
+      }
+    },
+    "includes": ["**", "!.output/", "!.wxt/", "!node_modules/"]
+  },
+  "javascript": {
+    "formatter": {
+      "trailingCommas": "all",
+      "semicolons": "asNeeded",
+      "quoteStyle": "single"
+    }
+  },
+  "html": {
+    "experimentalFullSupportEnabled": true,
+    "formatter": {
+      "indentScriptAndStyle": true,
+      "selfCloseVoidElements": "always"
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
+      "linter": {
+        "rules": {
+          "complexity": { "noArguments": "error" },
+          "style": { "useSpreadOverApply": "error" }
+        }
+      }
+    },
+    {
+      "includes": ["**/*.svelte", "**/*.svelte.ts", "**/*.svelte.js"],
+      "linter": {
+        "rules": {
+          "correctness": { "noInnerDeclarations": "off", "noSelfAssign": "off" }
+        }
+      }
+    }
+  ],
+  "assist": {
+    "enabled": true,
+    "actions": { "source": { "organizeImports": "on" } }
+  }
+}

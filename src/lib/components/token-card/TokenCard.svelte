@@ -1,16 +1,16 @@
 <script lang="ts">
-  import { type Token } from "@/lib/api/types";
-  import type { Settings } from "@/lib/state/settings.svelte";
-  import Badge from "@/lib/components/common/Badge.svelte";
-  import TokenCardSkeleton from "./TokenCardSkeleton.svelte";
-  import POSBadge from "@/lib/components/POSBadge.svelte";
-  import { morphologyLabel } from "@/lib/i18n/morphology-labels";
+  import type { Token } from '@/lib/api/types'
+  import Badge from '@/lib/components/common/Badge.svelte'
+  import POSBadge from '@/lib/components/POSBadge.svelte'
+  import { morphologyLabel } from '@/lib/i18n/morphology-labels'
+  import type { Settings } from '@/lib/state/settings.svelte'
+  import TokenCardSkeleton from './TokenCardSkeleton.svelte'
 
   let {
     token,
     loading = false,
     settings,
-  }: { token?: Token; loading?: boolean; settings: Settings } = $props();
+  }: { token?: Token; loading?: boolean; settings: Settings } = $props()
 </script>
 
 <div class="card bg-base-100 transition-shadow">

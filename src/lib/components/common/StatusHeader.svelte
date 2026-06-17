@@ -1,28 +1,28 @@
 <script lang="ts">
-  import type { Component } from "svelte";
-  import { type IconProps } from "@lucide/svelte";
+  import type { IconProps } from '@lucide/svelte'
+  import type { Component } from 'svelte'
 
   let {
     icon: Icon,
     title,
-    variant = "default",
+    variant = 'default',
   }: {
-    icon: Component<IconProps>;
-    title: string;
-    variant?: "default" | "error";
-  } = $props();
+    icon: Component<IconProps>
+    title: string
+    variant?: 'default' | 'error'
+  } = $props()
 
   // svelte-ignore state_referenced_locally
   const style =
-    variant === "default"
+    variant === 'default'
       ? {
-          bgClass: "bg-base-200",
-          iconClass: "",
+          bgClass: 'bg-base-200',
+          iconClass: '',
         }
       : {
-          bgClass: "bg-error/10",
-          iconClass: "text-error",
-        };
+          bgClass: 'bg-error/10',
+          iconClass: 'text-error',
+        }
 </script>
 
 <div

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Bug } from "@lucide/svelte";
+  import { Bug } from '@lucide/svelte'
 </script>
 
 <div class="border-base-300 mt-36 border-t px-6 py-4">
@@ -10,7 +10,8 @@
       rel="noopener noreferrer"
       target="_blank"
       href="https://github.com/alistairdavies/grammlin-extension/issues"
-      ><Bug size={14} class="inline" /> Report an issue</a
+      ><Bug size={14} class="inline" />
+      Report an issue</a
     >
   </div>
 

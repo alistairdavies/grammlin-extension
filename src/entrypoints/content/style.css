@@ -1,8 +1,8 @@
 @import "tailwindcss";
+@import "@/lib/components/styles/theme.css";
 @plugin "daisyui" {
   root: ":host";
 }
-@import "@/lib/components/styles/theme.css";
 
 :host {
   --pos-noun-bg: #2d7a4a;

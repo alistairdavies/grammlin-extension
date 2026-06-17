@@ -20,11 +20,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Check formatting
-        run: npm run format
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: 2.5.0
 
-      - name: Lint
-        run: npm run lint
+      - name: Lint and format check
+        run: biome ci .
 
       - name: Type Check
         run: npm run check

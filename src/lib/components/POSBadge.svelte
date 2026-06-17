@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { PartOfSpeech } from "@/lib/api/types";
-  import type { Settings } from "@/lib/state/settings.svelte";
-  import { posLabel } from "@/lib/i18n/pos-labels";
-  import { posColor } from "@/lib/components/pos-colours";
-  import Badge from "@/lib/components/common/Badge.svelte";
+  import type { PartOfSpeech } from '@/lib/api/types'
+  import Badge from '@/lib/components/common/Badge.svelte'
+  import { posColor } from '@/lib/components/pos-colours'
+  import { posLabel } from '@/lib/i18n/pos-labels'
+  import type { Settings } from '@/lib/state/settings.svelte'
 
-  let { pos, settings }: { pos: PartOfSpeech; settings: Settings } = $props();
+  let { pos, settings }: { pos: PartOfSpeech; settings: Settings } = $props()
 </script>
 
 <Badge

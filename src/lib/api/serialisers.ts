@@ -1,18 +1,18 @@
-import type { components } from "./grammar_client";
-import type { Token, Definition, MorphologyTag } from "./types";
+import type { components } from './grammar_client'
+import type { Definition, MorphologyTag, Token } from './types'
 
-type TokenResponse = components["schemas"]["AnalyseResponse"]["tokens"][number];
+type TokenResponse = components['schemas']['AnalyseResponse']['tokens'][number]
 
 export function serialiseTokens(
-  tokens: components["schemas"]["AnalyseResponse"]["tokens"],
+  tokens: components['schemas']['AnalyseResponse']['tokens'],
 ): Token[] {
-  return tokens.map(serialiseToken);
+  return tokens.map(serialiseToken)
 }
 
 export function serialiseToken(token: TokenResponse): Token {
   const tags =
-    "morphology" in token ? serialiseMorphology(token.morphology) : [];
-  const definitions = serialiseDefinitions(token.definitions);
+    'morphology' in token ? serialiseMorphology(token.morphology) : []
+  const definitions = serialiseDefinitions(token.definitions)
 
   return {
     text: token.text,
@@ -24,19 +24,19 @@ export function serialiseToken(token: TokenResponse): Token {
       definitions.length === 1
         ? (token.definitions?.[0].compound_parts ?? null)
         : null,
-  };
+  }
 }
 
 export function serialiseMorphology(
   morphology: Record<string, unknown>,
 ): MorphologyTag[] {
   return Object.values(morphology).filter(
-    (value): value is MorphologyTag => typeof value === "string",
-  );
+    (value): value is MorphologyTag => typeof value === 'string',
+  )
 }
 
 export function serialiseDefinitions(
-  definitions?: components["schemas"]["Definition"][],
+  definitions?: components['schemas']['Definition'][],
 ): Definition[] {
   return (
     definitions?.map((def) => ({
@@ -44,5 +44,5 @@ export function serialiseDefinitions(
       definition: def.definition,
       distinction: def.distinction,
     })) ?? []
-  );
+  )
 }

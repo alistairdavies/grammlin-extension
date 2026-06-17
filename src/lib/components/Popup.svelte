@@ -1,23 +1,23 @@
 <script lang="ts">
-  import { fade } from "svelte/transition";
-  import { TokenCard, TokenList } from "@/lib/components/token-card";
-  import { MessageCircleQuestionMark, TriangleAlert } from "@lucide/svelte";
-  import StatusHeader from "@/lib/components/common/StatusHeader.svelte";
-  import type { Settings } from "@/lib/state/settings.svelte";
-  import { type VisiblePopupState } from "@/entrypoints/content/popup-state.svelte";
+  import { MessageCircleQuestionMark, TriangleAlert } from '@lucide/svelte'
+  import { fade } from 'svelte/transition'
+  import type { VisiblePopupState } from '@/entrypoints/content/popup-state.svelte'
+  import StatusHeader from '@/lib/components/common/StatusHeader.svelte'
+  import { TokenCard, TokenList } from '@/lib/components/token-card'
+  import type { Settings } from '@/lib/state/settings.svelte'
 
-  const GAP = 8;
+  const GAP = 8
 
   let {
     popupState,
     settings,
-  }: { popupState: VisiblePopupState; settings: Settings } = $props();
+  }: { popupState: VisiblePopupState; settings: Settings } = $props()
 
   let positionStyle = $derived(
-    popupState.position.direction === "below"
+    popupState.position.direction === 'below'
       ? `top: ${popupState.position.top}px; left: ${popupState.position.left}px; max-height: calc(100vh - ${popupState.position.top}px - ${GAP}px);`
       : `bottom: ${popupState.position.bottom}px; left: ${popupState.position.left}px; max-height: calc(100vh - ${popupState.position.bottom}px - ${GAP}px);`,
-  );
+  )
 </script>
 
 <div

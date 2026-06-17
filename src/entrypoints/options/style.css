@@ -1,6 +1,6 @@
 @import "tailwindcss";
-@plugin "daisyui";
 @import "@/lib/components/styles/theme.css";
+@plugin "daisyui";
 
 body {
   min-width: 450px;

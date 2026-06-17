@@ -1,34 +1,34 @@
-import type { components } from "./grammar_client";
+import type { components } from './grammar_client'
 
 export type PartOfSpeech = NonNullable<
-  components["schemas"]["BaseToken"]["part_of_speech"]
->;
+  components['schemas']['BaseToken']['part_of_speech']
+>
 
-type AdjectiveMorphology = components["schemas"]["AdjectiveMorphology"];
-type NounMorphology = components["schemas"]["NounMorphology"];
-type PronounMorphology = components["schemas"]["PronounMorphology"];
-type VerbMorphology = components["schemas"]["VerbMorphology"];
+type AdjectiveMorphology = components['schemas']['AdjectiveMorphology']
+type NounMorphology = components['schemas']['NounMorphology']
+type PronounMorphology = components['schemas']['PronounMorphology']
+type VerbMorphology = components['schemas']['VerbMorphology']
 
 export type MorphologyTag =
-  | NonNullable<AdjectiveMorphology["degree"]>
-  | NonNullable<NounMorphology["gender"]>
-  | NonNullable<NounMorphology["definiteness"]>
-  | NonNullable<NounMorphology["plurality"]>
-  | PronounMorphology["form"]
-  | NonNullable<VerbMorphology["tense"]>
-  | NonNullable<VerbMorphology["form"]>;
+  | NonNullable<AdjectiveMorphology['degree']>
+  | NonNullable<NounMorphology['gender']>
+  | NonNullable<NounMorphology['definiteness']>
+  | NonNullable<NounMorphology['plurality']>
+  | PronounMorphology['form']
+  | NonNullable<VerbMorphology['tense']>
+  | NonNullable<VerbMorphology['form']>
 
 export type Definition = {
-  translations: string[];
-  definition: string | null;
-  distinction: string | null;
-};
+  translations: string[]
+  definition: string | null
+  distinction: string | null
+}
 
 export type Token = {
-  text: string;
-  lemma: string;
-  pos: PartOfSpeech | null;
-  definitions: Definition[];
-  tags: MorphologyTag[];
-  compound_parts: string[] | null;
-};
+  text: string
+  lemma: string
+  pos: PartOfSpeech | null
+  definitions: Definition[]
+  tags: MorphologyTag[]
+  compound_parts: string[] | null
+}

@@ -1,7 +1,7 @@
-import js from "@eslint/js";
-import svelte from "eslint-plugin-svelte";
-import globals from "globals";
-import ts from "typescript-eslint";
+import js from '@eslint/js'
+import svelte from 'eslint-plugin-svelte'
+import globals from 'globals'
+import ts from 'typescript-eslint'
 
 export default ts.config(
   js.configs.recommended,
@@ -12,21 +12,21 @@ export default ts.config(
       globals: {
         ...globals.browser,
         ...globals.node,
-        browser: "readonly", // WXT WebExtension API global
+        browser: 'readonly', // WXT WebExtension API global
       },
     },
   },
   {
-    files: ["**/*.svelte", "**/*.svelte.ts", "**/*.svelte.js"],
+    files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
     languageOptions: {
       parserOptions: {
         projectService: true,
-        extraFileExtensions: [".svelte"],
+        extraFileExtensions: ['.svelte'],
         parser: ts.parser,
       },
     },
   },
   {
-    ignores: [".output/", ".wxt/", "node_modules/"],
+    ignores: ['.output/', '.wxt/', 'node_modules/'],
   },
-);
+)

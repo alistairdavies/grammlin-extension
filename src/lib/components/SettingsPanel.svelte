@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { Settings } from "@/lib/state/settings.svelte";
+  import type { Settings } from '@/lib/state/settings.svelte'
 
   const {
     settings,
     executeShortcut,
-  }: { settings: Settings; executeShortcut?: string } = $props();
+  }: { settings: Settings; executeShortcut?: string } = $props()
 </script>
 
 <div class="px-6">
