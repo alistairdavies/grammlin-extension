@@ -2,6 +2,9 @@
 
 A browser extension for Swedish language learners that provides grammatical breakdowns and word definitions for selected text.
 
+- [Chrome Extension](https://chromewebstore.google.com/detail/grammlin/emipiahcdgnnlopmohkaedhbobgcaleo)
+- [Firefox Addon](https://addons.mozilla.org/en-US/firefox/addon/grammlin/)
+
 ## Tech Stack
 
 - [WXT](https://wxt.dev/)
