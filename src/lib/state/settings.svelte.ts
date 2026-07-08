@@ -3,17 +3,21 @@ export type Settings = Awaited<ReturnType<typeof loadSettings>>
 
 const storageKeys: {
   grammarLanguage: StorageItemKey
-  welcomeMessageSeen: StorageItemKey
+  welcomeMessageSeenAt: StorageItemKey
+  feedbackMessageSeenAt: StorageItemKey
 } = {
   grammarLanguage: 'local:grammlinGrammarLanguage',
-  welcomeMessageSeen: 'local:grammlinWelcomeMessageSeen',
+  welcomeMessageSeenAt: 'local:grammlinWelcomeMessageSeen',
+  feedbackMessageSeenAt: 'local:grammlinFeedbackMessageSeen',
 }
 
 const DEFAULT_LANGUAGE: GrammarLanguage = 'sv'
+const FEEDBACK_PROMPT_DELAY_MS = 7 * 24 * 60 * 60 * 1000
 
 export async function loadSettings() {
   let grammarLanguage = $state(await loadGrammarLanguage())
-  let welcomeMessageSeen = $state(await loadWelcomeMessageSeen())
+  let welcomeMessageSeenAt = $state(await loadWelcomeMessageSeenAt())
+  let feedbackMessageSeenAt = $state(await loadFeedbackMessageSeenAt())
 
   const toggleGrammarLanguage = async () => {
     grammarLanguage = grammarLanguage === 'en' ? 'sv' : 'en'
@@ -21,19 +25,38 @@ export async function loadSettings() {
   }
 
   const setWelcomeMessageSeen = async () => {
-    welcomeMessageSeen = true
-    await storage.setItem(storageKeys.welcomeMessageSeen, welcomeMessageSeen)
+    welcomeMessageSeenAt = Date.now()
+    await storage.setItem(
+      storageKeys.welcomeMessageSeenAt,
+      welcomeMessageSeenAt,
+    )
+  }
+
+  const setFeedbackMessageSeen = async () => {
+    feedbackMessageSeenAt = Date.now()
+    await storage.setItem(
+      storageKeys.feedbackMessageSeenAt,
+      feedbackMessageSeenAt,
+    )
   }
 
   return {
     get grammarLanguage() {
       return grammarLanguage
     },
-    get welcomeMessageSeen() {
-      return welcomeMessageSeen
+    get showWelcomeMessage() {
+      return welcomeMessageSeenAt === null
+    },
+    get showFeedbackMessage() {
+      return (
+        welcomeMessageSeenAt !== null &&
+        feedbackMessageSeenAt === null &&
+        Date.now() - welcomeMessageSeenAt >= FEEDBACK_PROMPT_DELAY_MS
+      )
     },
     toggleGrammarLanguage,
     setWelcomeMessageSeen,
+    setFeedbackMessageSeen,
   }
 }
 
@@ -49,6 +72,25 @@ async function loadGrammarLanguage() {
   return DEFAULT_LANGUAGE
 }
 
-async function loadWelcomeMessageSeen() {
-  return (await storage.getItem(storageKeys.welcomeMessageSeen)) !== null
+async function loadWelcomeMessageSeenAt(): Promise<number | null> {
+  const stored = await storage.getItem(storageKeys.welcomeMessageSeenAt)
+
+  if (typeof stored === 'number') {
+    return stored
+  }
+
+  if (stored === true) {
+    // Migrate the legacy boolean flag to a timestamp so elapsed time can be measured
+    const now = Date.now()
+    await storage.setItem(storageKeys.welcomeMessageSeenAt, now)
+    return now
+  }
+
+  return null
+}
+
+async function loadFeedbackMessageSeenAt(): Promise<number | null> {
+  const stored = await storage.getItem(storageKeys.feedbackMessageSeenAt)
+
+  return typeof stored === 'number' ? stored : null
 }

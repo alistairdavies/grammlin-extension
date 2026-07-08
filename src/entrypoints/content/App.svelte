@@ -1,4 +1,5 @@
 <script lang="ts">
+  import FeedbackToast from '@/lib/components/FeedbackToast.svelte'
   import Popup from '@/lib/components/Popup.svelte'
   import WelcomeToast from '@/lib/components/WelcomeToast.svelte'
   import type { Settings } from '@/lib/state/settings.svelte'
@@ -15,6 +16,8 @@
 {#if popup.current.state !== "hidden"}
   <Popup popupState={popup.current} {settings} />
 {/if}
-{#if !settings.welcomeMessageSeen}
+{#if settings.showWelcomeMessage}
   <WelcomeToast onDismiss={settings.setWelcomeMessageSeen} {openOptions} />
+{:else if settings.showFeedbackMessage}
+  <FeedbackToast onDismiss={settings.setFeedbackMessageSeen} />
 {/if}
